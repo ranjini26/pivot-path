@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { MessageCircle, Send, Heart, Lightbulb, Target, ArrowLeft } from 'lucide-react';
+import { supabase } from "@/integrations/supabase/client";
+
 interface CoachingMessage {
   type: 'user' | 'coach';
   content: string;
@@ -41,19 +43,11 @@ export const MicroCoaching = ({
     emotion: 'supportive'
   }];
   const generateAICoachResponse = async (userMessage: string): Promise<CoachingMessage> => {
-    if (!apiKey) {
-      return generateCoachResponse(userMessage);
-    }
-
     try {
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'gpt-4.1-2025-04-14',
+      console.log('Generating AI coach response through secure edge function');
+      
+      const { data, error } = await supabase.functions.invoke('openai-chat', {
+        body: {
           messages: [
             {
               role: 'system',
@@ -73,15 +67,20 @@ export const MicroCoaching = ({
             }
           ],
           temperature: 0.8,
-          max_tokens: 300,
-        }),
+          maxTokens: 300,
+        },
       });
 
-      if (!response.ok) {
-        throw new Error('AI response failed');
+      if (error) {
+        console.error('Supabase function error:', error);
+        throw new Error('Failed to connect to coaching service');
       }
 
-      const data = await response.json();
+      if (data.error) {
+        console.error('OpenAI API error:', data.error);
+        throw new Error('Coaching service error');
+      }
+
       const content = data.choices[0]?.message?.content || 'I\'m here to help you through this journey.';
       
       // Determine emotion based on content tone

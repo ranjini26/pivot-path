@@ -1,3 +1,4 @@
+import { supabase } from "@/integrations/supabase/client";
 
 interface OpenAIMessage {
   role: 'system' | 'user' | 'assistant';
@@ -10,38 +11,32 @@ interface CareerAnalysisRequest {
 }
 
 export class OpenAIService {
-  private apiKey: string;
-  private baseUrl = 'https://api.openai.com/v1/chat/completions';
-
-  constructor(apiKey: string) {
-    this.apiKey = apiKey;
-  }
-
   private async makeRequest(messages: OpenAIMessage[], temperature = 0.7): Promise<string> {
     try {
-      const response = await fetch(this.baseUrl, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${this.apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'gpt-4.1-2025-04-14',
+      console.log('Making secure API request through Supabase edge function');
+      
+      const { data, error } = await supabase.functions.invoke('openai-chat', {
+        body: {
           messages,
           temperature,
-          max_tokens: 2000,
-        }),
+          maxTokens: 2000,
+        },
       });
 
-      if (!response.ok) {
-        throw new Error(`OpenAI API error: ${response.status}`);
+      if (error) {
+        console.error('Supabase function error:', error);
+        throw new Error('Failed to connect to AI service');
       }
 
-      const data = await response.json();
+      if (data.error) {
+        console.error('OpenAI API error:', data.error);
+        throw new Error('AI service error: ' + data.error);
+      }
+
       return data.choices[0]?.message?.content || 'No response generated';
     } catch (error) {
-      console.error('OpenAI API call failed:', error);
-      throw new Error('Failed to generate AI response. Please check your API key and try again.');
+      console.error('OpenAI service call failed:', error);
+      throw new Error('Failed to generate AI response. Please try again.');
     }
   }
 

@@ -16,7 +16,7 @@ const Index = () => {
   const [userStory, setUserStory] = useState('');
   const [selectedCareer, setSelectedCareer] = useState('');
   const [uploadedResume, setUploadedResume] = useState<File | null>(null);
-  const [apiKey, setApiKey] = useState('sk-proj-your-api-key-here'); // Replace with your actual API key
+  const [apiKey, setApiKey] = useState('configured'); // API key now securely stored in Supabase
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [successStory, setSuccessStory] = useState<any>(null);
   const [upskillPlan, setUpskillPlan] = useState<any[]>([]);
@@ -36,15 +36,6 @@ const Index = () => {
   };
 
   const handleStorySubmit = async (story: string, resume?: File) => {
-    if (!apiKey) {
-      toast({
-        title: "API Key Required",
-        description: "Please configure your OpenAI API key first.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setUserStory(story);
     if (resume) {
       setUploadedResume(resume);
@@ -59,7 +50,7 @@ const Index = () => {
     });
 
     try {
-      const openaiService = new OpenAIService(apiKey);
+      const openaiService = new OpenAIService();
       let resumeText = '';
       
       if (resume) {
@@ -126,20 +117,11 @@ const Index = () => {
   };
 
   const handleGetUpskillPlan = async (career: string) => {
-    if (!apiKey) {
-      toast({
-        title: "API Key Required",
-        description: "Please configure your OpenAI API key first.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setSelectedCareer(career);
     setIsGenerating(true);
     
     try {
-      const openaiService = new OpenAIService(apiKey);
+      const openaiService = new OpenAIService();
       const plan = await openaiService.generateUpskillPlan(career, userStory);
       setUpskillPlan(plan);
       setCurrentState('upskill');
@@ -172,20 +154,11 @@ const Index = () => {
   };
 
   const handleSkillSwapLearningPlan = async (industry: string) => {
-    if (!apiKey) {
-      toast({
-        title: "API Key Required",
-        description: "Please configure your OpenAI API key first.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setSelectedCareer(industry);
     setIsGenerating(true);
     
     try {
-      const openaiService = new OpenAIService(apiKey);
+      const openaiService = new OpenAIService();
       const plan = await openaiService.generateUpskillPlan(industry, userStory);
       setUpskillPlan(plan);
       setCurrentState('upskill');
@@ -213,7 +186,7 @@ const Index = () => {
         <div className="mb-6">
           <ApiKeyManager 
             onApiKeySet={setApiKey} 
-            hasApiKey={!!apiKey}
+            hasApiKey={true}
           />
         </div>
         
@@ -253,7 +226,7 @@ const Index = () => {
         {currentState === 'coaching' && (
           <MicroCoaching
             onBack={handleBack}
-            apiKey={apiKey}
+            apiKey="configured"
           />
         )}
       </div>
