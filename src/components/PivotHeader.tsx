@@ -2,22 +2,29 @@
 import { RotateCcw, MessageCircle, Heart, Target } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 
-export const PivotHeader = () => {
+interface PivotHeaderProps {
+  onFeatureClick?: (feature: string) => void;
+}
+
+export const PivotHeader = ({ onFeatureClick }: PivotHeaderProps) => {
   const features = [
     {
       icon: <RotateCcw className="w-5 h-5 text-indigo-600" />,
       title: "Skill Swap Simulator",
-      description: "Test how your skills transfer across 10+ trending industries"
+      description: "Test how your skills transfer across 10+ trending industries",
+      key: "skill-swap"
     },
     {
       icon: <MessageCircle className="w-5 h-5 text-purple-600" />,
       title: "Mock Interview Prep",
-      description: "AI interviewer with custom questions & empathetic feedback"
+      description: "AI interviewer with custom questions & empathetic feedback",
+      key: "mock-interview"
     },
     {
       icon: <Heart className="w-5 h-5 text-pink-600" />,
       title: "Emotion Tracker",
-      description: "Detects frustration and adapts advice with encouraging nudges"
+      description: "Detects frustration and adapts advice with encouraging nudges",
+      key: "emotion-tracker"
     }
   ];
 
@@ -42,7 +49,11 @@ export const PivotHeader = () => {
       {/* Feature Cards */}
       <div className="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto mt-8">
         {features.map((feature, index) => (
-          <Card key={index} className="glass-effect p-4 hover:shadow-lg transition-all duration-200">
+          <Card 
+            key={index} 
+            className="glass-effect p-4 hover:shadow-lg transition-all duration-200 cursor-pointer hover:scale-105 border-2 hover:border-indigo-300"
+            onClick={() => onFeatureClick?.(feature.key)}
+          >
             <div className="flex flex-col items-center text-center space-y-2">
               <div className="p-2 rounded-full bg-white/50 dark:bg-slate-800/50">
                 {feature.icon}

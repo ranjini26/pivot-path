@@ -1,18 +1,19 @@
-
 import { useState } from 'react';
 import { PivotHeader } from '@/components/PivotHeader';
 import { CareerInput } from '@/components/CareerInput';
 import { CareerSuggestions } from '@/components/CareerSuggestions';
 import { UpskillPlan } from '@/components/UpskillPlan';
 import { MicroCoaching } from '@/components/MicroCoaching';
+import { SkillSwapSimulator } from '@/components/SkillSwapSimulator';
 import { useToast } from '@/hooks/use-toast';
 
-type AppState = 'input' | 'suggestions' | 'upskill' | 'coaching';
+type AppState = 'input' | 'suggestions' | 'upskill' | 'coaching' | 'skill-swap';
 
 const Index = () => {
   const [currentState, setCurrentState] = useState<AppState>('input');
   const [userStory, setUserStory] = useState('');
   const [selectedCareer, setSelectedCareer] = useState('');
+  const [uploadedResume, setUploadedResume] = useState<File | null>(null);
   const { toast } = useToast();
 
   // Mock data - in a real app, this would come from an AI API
@@ -84,13 +85,18 @@ const Index = () => {
     }
   ];
 
-  const handleStorySubmit = (story: string) => {
+  const handleStorySubmit = (story: string, resume?: File) => {
     setUserStory(story);
+    if (resume) {
+      setUploadedResume(resume);
+    }
     
     // Simulate AI processing
     toast({
       title: "Analyzing your story...",
-      description: "Our AI is identifying your transferable skills and opportunities.",
+      description: resume 
+        ? "Our AI is analyzing your story and resume to identify transferable skills."
+        : "Our AI is identifying your transferable skills and opportunities.",
     });
 
     setTimeout(() => {
@@ -100,6 +106,32 @@ const Index = () => {
         description: "Here are your personalized career suggestions.",
       });
     }, 2000);
+  };
+
+  const handleFeatureClick = (feature: string) => {
+    if (!userStory) {
+      toast({
+        title: "Please share your story first",
+        description: "Tell us about your current situation to access these features.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    switch (feature) {
+      case 'skill-swap':
+        setCurrentState('skill-swap');
+        break;
+      case 'mock-interview':
+        setCurrentState('coaching');
+        break;
+      case 'emotion-tracker':
+        toast({
+          title: "Emotion Tracker Active",
+          description: "We're now monitoring your tone and will provide encouraging support when needed.",
+        });
+        break;
+    }
   };
 
   const handleGetUpskillPlan = (career: string) => {
@@ -117,19 +149,27 @@ const Index = () => {
   };
 
   const handleBack = () => {
-    if (currentState === 'upskill') {
-      setCurrentState('suggestions');
-    } else if (currentState === 'coaching') {
+    if (currentState === 'upskill' || currentState === 'coaching' || currentState === 'skill-swap') {
       setCurrentState('suggestions');
     } else {
       setCurrentState('input');
     }
   };
 
+  const handleSkillSwapLearningPlan = (industry: string) => {
+    setSelectedCareer(industry);
+    setCurrentState('upskill');
+    
+    toast({
+      title: "Learning plan ready!",
+      description: `Your 90-day plan for transitioning to ${industry} is ready.`,
+    });
+  };
+
   return (
     <div className="min-h-screen py-8 px-4">
       <div className="max-w-4xl mx-auto">
-        <PivotHeader />
+        <PivotHeader onFeatureClick={handleFeatureClick} />
         
         {currentState === 'input' && (
           <CareerInput 
@@ -144,6 +184,13 @@ const Index = () => {
             successStory={mockSuccessStory}
             onGetUpskillPlan={handleGetUpskillPlan}
             onMicroCoaching={handleMicroCoaching}
+          />
+        )}
+        
+        {currentState === 'skill-swap' && (
+          <SkillSwapSimulator
+            onBack={handleBack}
+            onStartLearningPlan={handleSkillSwapLearningPlan}
           />
         )}
         

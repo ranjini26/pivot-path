@@ -3,20 +3,28 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
-import { Send, Lightbulb, ArrowRight } from 'lucide-react';
+import { Send, Lightbulb, ArrowRight, Upload, FileText } from 'lucide-react';
 
 interface CareerInputProps {
-  onSubmit: (input: string) => void;
+  onSubmit: (input: string, resume?: File) => void;
   isLoading: boolean;
 }
 
 export const CareerInput = ({ onSubmit, isLoading }: CareerInputProps) => {
   const [input, setInput] = useState('');
+  const [resume, setResume] = useState<File | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim() && !isLoading) {
-      onSubmit(input.trim());
+      onSubmit(input.trim(), resume || undefined);
+    }
+  };
+
+  const handleResumeUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && (file.type === 'application/pdf' || file.type.startsWith('image/'))) {
+      setResume(file);
     }
   };
 
@@ -66,6 +74,39 @@ export const CareerInput = ({ onSubmit, isLoading }: CareerInputProps) => {
               className="min-h-[140px] resize-none border-2 border-slate-300 dark:border-slate-600 focus:border-indigo-500 transition-colors text-base text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800 placeholder:text-slate-500"
               disabled={isLoading}
             />
+
+            {/* Resume Upload */}
+            <div className="space-y-3">
+              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                Upload your resume (optional but recommended)
+              </label>
+              <div className="flex items-center gap-4">
+                <label className="cursor-pointer">
+                  <input
+                    type="file"
+                    accept=".pdf,image/*"
+                    onChange={handleResumeUpload}
+                    className="hidden"
+                    disabled={isLoading}
+                  />
+                  <div className="flex items-center gap-2 px-4 py-2 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg hover:border-indigo-400 transition-colors">
+                    <Upload className="w-4 h-4 text-slate-500" />
+                    <span className="text-sm text-slate-600 dark:text-slate-400">
+                      Choose file
+                    </span>
+                  </div>
+                </label>
+                {resume && (
+                  <div className="flex items-center gap-2 text-sm text-green-600">
+                    <FileText className="w-4 h-4" />
+                    <span>{resume.name}</span>
+                  </div>
+                )}
+              </div>
+              <p className="text-xs text-slate-500">
+                PDF or image files only. This helps our AI provide more accurate career suggestions.
+              </p>
+            </div>
             
             <Button 
               type="submit" 
@@ -75,7 +116,7 @@ export const CareerInput = ({ onSubmit, isLoading }: CareerInputProps) => {
               {isLoading ? (
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Analyzing your story...
+                  Analyzing your story & resume...
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
