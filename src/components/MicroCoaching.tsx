@@ -11,9 +11,11 @@ interface CoachingMessage {
 }
 interface MicroCoachingProps {
   onBack: () => void;
+  apiKey?: string;
 }
 export const MicroCoaching = ({
-  onBack
+  onBack,
+  apiKey
 }: MicroCoachingProps) => {
   const [messages, setMessages] = useState<CoachingMessage[]>([{
     type: 'coach',
@@ -38,6 +40,69 @@ export const MicroCoaching = ({
     text: "I don't feel qualified for the jobs I want",
     emotion: 'supportive'
   }];
+  const generateAICoachResponse = async (userMessage: string): Promise<CoachingMessage> => {
+    if (!apiKey) {
+      return generateCoachResponse(userMessage);
+    }
+
+    try {
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'gpt-4.1-2025-04-14',
+          messages: [
+            {
+              role: 'system',
+              content: `You are a supportive career coach helping someone through a career transition. 
+              Analyze their message for emotional tone and provide empathetic, actionable advice.
+              
+              Respond with supportive, motivational, or practical guidance based on their needs.
+              Keep responses warm, encouraging, and under 150 words.
+              
+              If they mention feeling overwhelmed, scared, or lost - be supportive.
+              If they mention rejection or losing motivation - be motivational.
+              If they ask practical questions - give practical advice.`
+            },
+            {
+              role: 'user',
+              content: userMessage
+            }
+          ],
+          temperature: 0.8,
+          max_tokens: 300,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('AI response failed');
+      }
+
+      const data = await response.json();
+      const content = data.choices[0]?.message?.content || 'I\'m here to help you through this journey.';
+      
+      // Determine emotion based on content tone
+      let emotion: 'supportive' | 'motivational' | 'practical' = 'supportive';
+      const lowerContent = content.toLowerCase();
+      if (lowerContent.includes('practice') || lowerContent.includes('step') || lowerContent.includes('strategy')) {
+        emotion = 'practical';
+      } else if (lowerContent.includes('strength') || lowerContent.includes('achieve') || lowerContent.includes('success')) {
+        emotion = 'motivational';
+      }
+
+      return {
+        type: 'coach',
+        content,
+        emotion
+      };
+    } catch (error) {
+      console.error('AI coaching response failed:', error);
+      return generateCoachResponse(userMessage);
+    }
+  };
   const generateCoachResponse = (userMessage: string): CoachingMessage => {
     const lowerMessage = userMessage.toLowerCase();
 
@@ -65,22 +130,31 @@ export const MicroCoaching = ({
       emotion
     };
   };
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!currentMessage.trim() || isLoading) return;
+
     const userMessage: CoachingMessage = {
       type: 'user',
       content: currentMessage
     };
+
     setMessages(prev => [...prev, userMessage]);
     setCurrentMessage('');
     setIsLoading(true);
 
-    // Simulate AI response delay
-    setTimeout(() => {
-      const coachResponse = generateCoachResponse(currentMessage);
-      setMessages(prev => [...prev, coachResponse]);
-      setIsLoading(false);
-    }, 1000);
+    try {
+      const coachResponse = await generateAICoachResponse(currentMessage);
+      setTimeout(() => {
+        setMessages(prev => [...prev, coachResponse]);
+        setIsLoading(false);
+      }, 1000);
+    } catch (error) {
+      const fallbackResponse = generateCoachResponse(currentMessage);
+      setTimeout(() => {
+        setMessages(prev => [...prev, fallbackResponse]);
+        setIsLoading(false);
+      }, 1000);
+    }
   };
   const handleQuickPrompt = (prompt: string) => {
     setCurrentMessage(prompt);

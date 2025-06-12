@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -8,12 +7,14 @@ import { RotateCcw, TrendingUp, ArrowRight, CheckCircle } from 'lucide-react';
 interface SkillSwapSimulatorProps {
   onBack: () => void;
   onStartLearningPlan: (industry: string) => void;
+  industries?: any[];
 }
 
-export const SkillSwapSimulator = ({ onBack, onStartLearningPlan }: SkillSwapSimulatorProps) => {
+export const SkillSwapSimulator = ({ onBack, onStartLearningPlan, industries = [] }: SkillSwapSimulatorProps) => {
   const [selectedIndustry, setSelectedIndustry] = useState<string | null>(null);
 
-  const industries = [
+  // Use provided industries or fallback to default data
+  const defaultIndustries = [
     {
       name: "EdTech/Instructional Design",
       match: 92,
@@ -58,6 +59,8 @@ export const SkillSwapSimulator = ({ onBack, onStartLearningPlan }: SkillSwapSim
     }
   ];
 
+  const industriesToShow = industries.length > 0 ? industries : defaultIndustries;
+
   const getGrowthColor = (growth: string) => {
     switch (growth) {
       case 'High': return 'bg-green-100 text-green-800 border-green-200';
@@ -93,7 +96,7 @@ export const SkillSwapSimulator = ({ onBack, onStartLearningPlan }: SkillSwapSim
       </Card>
 
       <div className="grid md:grid-cols-2 gap-4">
-        {industries.map((industry, index) => (
+        {industriesToShow.map((industry, index) => (
           <Card 
             key={index} 
             className={`glass-effect p-6 hover:shadow-lg transition-all duration-200 cursor-pointer border-2 ${
