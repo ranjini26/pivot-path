@@ -36,25 +36,6 @@ export const CareerInput = ({ onSubmit, isLoading }: CareerInputProps) => {
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
-      {/* What You'll Get Section */}
-      <Card className="glass-effect p-6 border-l-4 border-l-indigo-400">
-        <div className="flex items-start gap-3">
-          <ArrowRight className="w-5 h-5 text-indigo-600 mt-1 flex-shrink-0" />
-          <div>
-            <h3 className="font-semibold text-lg text-slate-900 dark:text-slate-100 mb-2">
-              What you'll get in 60 seconds:
-            </h3>
-            <ul className="space-y-1 text-sm text-slate-700 dark:text-slate-300">
-              <li>• 3 career directions that match your transferable skills</li>
-              <li>• Skill transfer analysis across trending industries</li>
-              <li>• 90-day upskilling plan with free resources</li>
-              <li>• Real success story for motivation</li>
-              <li>• Access to mock interviews & emotional support</li>
-            </ul>
-          </div>
-        </div>
-      </Card>
-
       {/* Input Section */}
       <Card className="glass-effect p-8 border border-slate-200 dark:border-slate-700 shadow-xl">
         <div className="mb-6">
@@ -141,6 +122,25 @@ export const CareerInput = ({ onSubmit, isLoading }: CareerInputProps) => {
                 "{prompt}"
               </button>
             ))}
+          </div>
+        </div>
+      </Card>
+
+      {/* What You'll Get Section - Moved below */}
+      <Card className="glass-effect p-6 border-l-4 border-l-indigo-400">
+        <div className="flex items-start gap-3">
+          <ArrowRight className="w-5 h-5 text-indigo-600 mt-1 flex-shrink-0" />
+          <div>
+            <h3 className="font-semibold text-lg text-slate-900 dark:text-slate-100 mb-2">
+              What you'll get in 60 seconds:
+            </h3>
+            <ul className="space-y-1 text-sm text-slate-700 dark:text-slate-300">
+              <li>• 3 career directions that match your transferable skills</li>
+              <li>• Skill transfer analysis across trending industries</li>
+              <li>• 90-day upskilling plan with free resources</li>
+              <li>• Real success story for motivation</li>
+              <li>• Access to mock interviews & emotional support</li>
+            </ul>
           </div>
         </div>
       </Card>
