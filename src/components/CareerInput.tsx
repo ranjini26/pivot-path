@@ -27,29 +27,29 @@ export const CareerInput = ({ onSubmit, isLoading }: CareerInputProps) => {
   ];
 
   return (
-    <Card className="glass-effect p-6 animate-slide-up">
+    <Card className="glass-effect p-8 animate-slide-up max-w-2xl mx-auto">
       <div className="mb-6">
-        <div className="flex items-center gap-2 mb-3">
-          <Lightbulb className="w-5 h-5 text-amber-500" />
-          <h3 className="font-semibold text-foreground">Tell me your story</h3>
+        <div className="flex items-center gap-2 mb-4">
+          <Lightbulb className="w-6 h-6 text-amber-500" />
+          <h3 className="font-semibold text-xl text-high-contrast">Tell me your story</h3>
         </div>
-        <p className="text-sm text-muted-foreground mb-4">
+        <p className="text-medium-contrast mb-6 text-lg leading-relaxed">
           Share your current situation, what you're struggling with, and what kind of change you're seeking.
         </p>
         
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <Textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="I'm currently working as... but I'm feeling stuck because..."
-            className="min-h-[120px] resize-none border-2 focus:border-primary/50 transition-colors"
+            className="min-h-[140px] resize-none border-2 focus:border-primary/50 transition-colors text-base text-high-contrast bg-white/80 placeholder:text-slate-500"
             disabled={isLoading}
           />
           
           <Button 
             type="submit" 
             disabled={!input.trim() || isLoading}
-            className="w-full pivot-gradient text-white hover:opacity-90 transition-all duration-200 font-medium"
+            className="w-full pivot-gradient text-white hover:opacity-90 transition-all duration-200 font-medium py-3 text-base"
           >
             {isLoading ? (
               <div className="flex items-center gap-2">
@@ -58,7 +58,7 @@ export const CareerInput = ({ onSubmit, isLoading }: CareerInputProps) => {
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                <Send className="w-4 h-4" />
+                <Send className="w-5 h-5" />
                 Start Your Pivot Journey
               </div>
             )}
@@ -66,15 +66,15 @@ export const CareerInput = ({ onSubmit, isLoading }: CareerInputProps) => {
         </form>
       </div>
 
-      <div className="space-y-3">
-        <p className="text-sm font-medium text-muted-foreground">Need inspiration? Try these:</p>
-        <div className="space-y-2">
+      <div className="space-y-4">
+        <p className="text-base font-medium text-medium-contrast">Need inspiration? Try these:</p>
+        <div className="space-y-3">
           {examplePrompts.map((prompt, index) => (
             <button
               key={index}
               onClick={() => setInput(prompt)}
               disabled={isLoading}
-              className="w-full text-left p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors text-sm border border-transparent hover:border-border disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full text-left p-4 rounded-lg bg-slate-50 hover:bg-slate-100 transition-colors text-sm border border-slate-200 hover:border-slate-300 disabled:opacity-50 disabled:cursor-not-allowed text-high-contrast"
             >
               "{prompt}"
             </button>
