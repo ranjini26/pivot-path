@@ -62,7 +62,7 @@ export const CareerSuggestions = ({
             <div className="flex justify-between items-start mb-4">
               <div>
                 <h4 className="font-semibold text-lg text-foreground">{suggestion.title}</h4>
-                <p className="text-muted-foreground mt-1">{suggestion.description}</p>
+                <p className="mt-1 text-zinc-950">{suggestion.description}</p>
               </div>
               <Badge className={getGrowthColor(suggestion.growthPotential)}>
                 {suggestion.growthPotential} Growth
@@ -134,7 +134,7 @@ export const CareerSuggestions = ({
       </Card>
 
       {/* Micro-Coaching CTA */}
-      <Card className="glass-effect p-6 text-center pivot-warm-gradient">
+      <Card className="glass-effect p-6 text-center pivot-warm-gradient bg-blue-950">
         <MessageCircle className="w-8 h-8 mx-auto mb-3 text-white" />
         <h3 className="font-semibold text-lg text-white mb-2">Need a pep talk or advice?</h3>
         <p className="text-white/90 mb-4 text-sm">
