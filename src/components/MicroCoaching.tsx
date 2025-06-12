@@ -1,47 +1,49 @@
-
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { MessageCircle, Send, Heart, Lightbulb, Target, ArrowLeft } from 'lucide-react';
-
 interface CoachingMessage {
   type: 'user' | 'coach';
   content: string;
   emotion?: 'supportive' | 'motivational' | 'practical';
 }
-
 interface MicroCoachingProps {
   onBack: () => void;
 }
-
-export const MicroCoaching = ({ onBack }: MicroCoachingProps) => {
-  const [messages, setMessages] = useState<CoachingMessage[]>([
-    {
-      type: 'coach',
-      content: "Hi there! I'm here to be your personal career coach. Whether you need a pep talk, interview tips, or just someone to listen - I've got you. What's on your mind?",
-      emotion: 'supportive'
-    }
-  ]);
+export const MicroCoaching = ({
+  onBack
+}: MicroCoachingProps) => {
+  const [messages, setMessages] = useState<CoachingMessage[]>([{
+    type: 'coach',
+    content: "Hi there! I'm here to be your personal career coach. Whether you need a pep talk, interview tips, or just someone to listen - I've got you. What's on your mind?",
+    emotion: 'supportive'
+  }]);
   const [currentMessage, setCurrentMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
-  const quickPrompts = [
-    { text: "I'm feeling overwhelmed about job searching", emotion: 'supportive' },
-    { text: "How do I explain career gaps in interviews?", emotion: 'practical' },
-    { text: "I keep getting rejected and losing motivation", emotion: 'motivational' },
-    { text: "What should I say when they ask why I'm changing careers?", emotion: 'practical' },
-    { text: "I don't feel qualified for the jobs I want", emotion: 'supportive' }
-  ];
-
+  const quickPrompts = [{
+    text: "I'm feeling overwhelmed about job searching",
+    emotion: 'supportive'
+  }, {
+    text: "How do I explain career gaps in interviews?",
+    emotion: 'practical'
+  }, {
+    text: "I keep getting rejected and losing motivation",
+    emotion: 'motivational'
+  }, {
+    text: "What should I say when they ask why I'm changing careers?",
+    emotion: 'practical'
+  }, {
+    text: "I don't feel qualified for the jobs I want",
+    emotion: 'supportive'
+  }];
   const generateCoachResponse = (userMessage: string): CoachingMessage => {
     const lowerMessage = userMessage.toLowerCase();
-    
+
     // Emotion detection
     let emotion: 'supportive' | 'motivational' | 'practical' = 'practical';
     let response = '';
-
     if (lowerMessage.includes('overwhelmed') || lowerMessage.includes('scared') || lowerMessage.includes('lost') || lowerMessage.includes('anxious')) {
       emotion = 'supportive';
       response = "I hear you, and what you're feeling is completely normal. Career transitions can feel overwhelming, but remember - you've overcome challenges before, and you will again. Let's break this down into smaller, manageable steps. What feels most overwhelming right now?";
@@ -57,14 +59,18 @@ export const MicroCoaching = ({ onBack }: MicroCoachingProps) => {
     } else {
       response = "I'm here to help you navigate this. Can you tell me more about what specific aspect you'd like to work through together? Whether it's confidence, strategy, or just processing your thoughts - we'll tackle it step by step.";
     }
-
-    return { type: 'coach', content: response, emotion };
+    return {
+      type: 'coach',
+      content: response,
+      emotion
+    };
   };
-
   const handleSendMessage = () => {
     if (!currentMessage.trim() || isLoading) return;
-
-    const userMessage: CoachingMessage = { type: 'user', content: currentMessage };
+    const userMessage: CoachingMessage = {
+      type: 'user',
+      content: currentMessage
+    };
     setMessages(prev => [...prev, userMessage]);
     setCurrentMessage('');
     setIsLoading(true);
@@ -76,29 +82,29 @@ export const MicroCoaching = ({ onBack }: MicroCoachingProps) => {
       setIsLoading(false);
     }, 1000);
   };
-
   const handleQuickPrompt = (prompt: string) => {
     setCurrentMessage(prompt);
   };
-
   const getEmotionIcon = (emotion?: string) => {
     switch (emotion) {
-      case 'supportive': return <Heart className="w-4 h-4 text-pink-500" />;
-      case 'motivational': return <Target className="w-4 h-4 text-orange-500" />;
-      case 'practical': return <Lightbulb className="w-4 h-4 text-blue-500" />;
-      default: return <MessageCircle className="w-4 h-4 text-gray-500" />;
+      case 'supportive':
+        return <Heart className="w-4 h-4 text-pink-500" />;
+      case 'motivational':
+        return <Target className="w-4 h-4 text-orange-500" />;
+      case 'practical':
+        return <Lightbulb className="w-4 h-4 text-blue-500" />;
+      default:
+        return <MessageCircle className="w-4 h-4 text-gray-500" />;
     }
   };
-
-  return (
-    <div className="space-y-6 animate-fade-in">
+  return <div className="space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
             <MessageCircle className="w-6 h-6 text-indigo-600" />
             Micro-Coaching
           </h2>
-          <p className="text-muted-foreground mt-1">Your personal career transformation coach</p>
+          <p className="mt-1 text-zinc-950">Your personal career transformation coach</p>
         </div>
         <Button onClick={onBack} variant="outline" className="flex items-center gap-2">
           <ArrowLeft className="w-4 h-4" />
@@ -108,52 +114,31 @@ export const MicroCoaching = ({ onBack }: MicroCoachingProps) => {
 
       <Card className="glass-effect p-6 h-96 flex flex-col">
         <div className="flex-1 overflow-y-auto space-y-4 mb-4">
-          {messages.map((message, index) => (
-            <div key={index} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`max-w-[80%] p-3 rounded-lg ${
-                message.type === 'user' 
-                  ? 'bg-indigo-600 text-white' 
-                  : 'bg-muted text-foreground border border-border'
-              }`}>
-                {message.type === 'coach' && (
-                  <div className="flex items-center gap-2 mb-2">
+          {messages.map((message, index) => <div key={index} className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div className={`max-w-[80%] p-3 rounded-lg ${message.type === 'user' ? 'bg-indigo-600 text-white' : 'bg-muted text-foreground border border-border'}`}>
+                {message.type === 'coach' && <div className="flex items-center gap-2 mb-2">
                     {getEmotionIcon(message.emotion)}
                     <Badge variant="secondary" className="text-xs">
                       {message.emotion || 'supportive'} mode
                     </Badge>
-                  </div>
-                )}
+                  </div>}
                 <p className="text-sm leading-relaxed">{message.content}</p>
               </div>
-            </div>
-          ))}
+            </div>)}
           
-          {isLoading && (
-            <div className="flex justify-start">
+          {isLoading && <div className="flex justify-start">
               <div className="bg-muted text-foreground border border-border p-3 rounded-lg">
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 border-2 border-indigo-300 border-t-indigo-600 rounded-full animate-spin" />
                   <span className="text-sm">Thinking...</span>
                 </div>
               </div>
-            </div>
-          )}
+            </div>}
         </div>
 
         <div className="flex gap-2">
-          <Input
-            value={currentMessage}
-            onChange={(e) => setCurrentMessage(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-            placeholder="Ask me anything about your career journey..."
-            disabled={isLoading}
-            className="flex-1"
-          />
-          <Button 
-            onClick={handleSendMessage}
-            disabled={!currentMessage.trim() || isLoading}
-            className="pivot-gradient text-white"
-          >
+          <Input value={currentMessage} onChange={e => setCurrentMessage(e.target.value)} onKeyPress={e => e.key === 'Enter' && handleSendMessage()} placeholder="Ask me anything about your career journey..." disabled={isLoading} className="flex-1 bg-zinc-950" />
+          <Button onClick={handleSendMessage} disabled={!currentMessage.trim() || isLoading} className="pivot-gradient text-white">
             <Send className="w-4 h-4" />
           </Button>
         </div>
@@ -162,18 +147,10 @@ export const MicroCoaching = ({ onBack }: MicroCoachingProps) => {
       <Card className="glass-effect p-4">
         <h3 className="font-medium mb-3 text-sm text-muted-foreground">Quick conversation starters:</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-          {quickPrompts.map((prompt, index) => (
-            <button
-              key={index}
-              onClick={() => handleQuickPrompt(prompt.text)}
-              disabled={isLoading}
-              className="text-left p-2 text-xs rounded border border-border hover:bg-muted transition-colors disabled:opacity-50"
-            >
+          {quickPrompts.map((prompt, index) => <button key={index} onClick={() => handleQuickPrompt(prompt.text)} disabled={isLoading} className="text-left p-2 text-xs rounded border border-border hover:bg-muted transition-colors disabled:opacity-50">
               {prompt.text}
-            </button>
-          ))}
+            </button>)}
         </div>
       </Card>
-    </div>
-  );
+    </div>;
 };
