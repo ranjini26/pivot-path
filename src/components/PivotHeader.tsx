@@ -13,7 +13,7 @@ export const PivotHeader = () => {
         </h1>
         <Sparkles className="w-6 h-6 text-purple-500 animate-pulse" />
       </div>
-      <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+      <p className="text-lg text-slate-700 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed font-medium">
         Your AI companion for career transformation. From stuck to unstoppable.
       </p>
     </div>
