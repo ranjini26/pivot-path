@@ -58,7 +58,7 @@ export const UpskillPlan = ({
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-foreground">90-Day Upskill Plan</h2>
-          <p className="text-muted-foreground mt-1">Your path to becoming a <span className="font-medium text-indigo-600">{careerPath}</span></p>
+          <p className="mt-1 text-gray-900">Your path to becoming a <span className="font-medium text-indigo-600">{careerPath}</span></p>
         </div>
         <Button onClick={onBack} variant="outline">
           ← Back to Suggestions
@@ -70,7 +70,7 @@ export const UpskillPlan = ({
           <CheckCircle className="w-5 h-5 text-green-600" />
           <h3 className="font-semibold">Your Learning Journey</h3>
         </div>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-sm text-zinc-950">
           This plan uses 100% free resources from trusted platforms. Dedicate 5-10 hours per week for best results.
         </p>
       </Card>
@@ -79,7 +79,7 @@ export const UpskillPlan = ({
         {weeklyGoals.map((goal, index) => <Card key={index} className="glass-effect p-6">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full pivot-gradient flex items-center justify-center text-white font-bold">
+                <div className="w-10 h-10 rounded-full pivot-gradient flex items-center justify-center text-white font-bold bg-zinc-900">
                   {index + 1}
                 </div>
                 <div>
