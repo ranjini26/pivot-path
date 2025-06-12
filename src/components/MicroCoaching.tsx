@@ -137,7 +137,7 @@ export const MicroCoaching = ({
         </div>
 
         <div className="flex gap-2">
-          <Input value={currentMessage} onChange={e => setCurrentMessage(e.target.value)} onKeyPress={e => e.key === 'Enter' && handleSendMessage()} placeholder="Ask me anything about your career journey..." disabled={isLoading} className="flex-1 bg-zinc-950" />
+          <Input value={currentMessage} onChange={e => setCurrentMessage(e.target.value)} onKeyPress={e => e.key === 'Enter' && handleSendMessage()} placeholder="Ask me anything about your career journey..." disabled={isLoading} className="flex-1 bg-zinc-100" />
           <Button onClick={handleSendMessage} disabled={!currentMessage.trim() || isLoading} className="pivot-gradient text-white">
             <Send className="w-4 h-4" />
           </Button>
