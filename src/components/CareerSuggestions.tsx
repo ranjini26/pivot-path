@@ -126,7 +126,7 @@ export const CareerSuggestions = ({
             <span className="text-muted-foreground">to</span>
             <Badge className="bg-green-100 text-green-800 border-green-200">{successStory.toRole}</Badge>
           </div>
-          <p className="text-sm text-muted-foreground">Timeline: {successStory.timeframe}</p>
+          <p className="text-sm text-zinc-950">Timeline: {successStory.timeframe}</p>
           <blockquote className="border-l-2 border-amber-200 pl-4 py-2 bg-amber-50 dark:bg-amber-900/20 rounded-r">
             <p className="text-sm italic text-foreground">"{successStory.keyInsight}"</p>
           </blockquote>
