@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { PivotHeader } from '@/components/PivotHeader';
 import { CareerInput } from '@/components/CareerInput';
@@ -17,7 +16,7 @@ const Index = () => {
   const [userStory, setUserStory] = useState('');
   const [selectedCareer, setSelectedCareer] = useState('');
   const [uploadedResume, setUploadedResume] = useState<File | null>(null);
-  const [apiKey, setApiKey] = useState('');
+  const [apiKey, setApiKey] = useState('sk-proj-your-api-key-here'); // Replace with your actual API key
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [successStory, setSuccessStory] = useState<any>(null);
   const [upskillPlan, setUpskillPlan] = useState<any[]>([]);
@@ -211,14 +210,12 @@ const Index = () => {
       <div className="max-w-4xl mx-auto">
         <PivotHeader onFeatureClick={handleFeatureClick} />
         
-        {!apiKey && (
-          <div className="mb-6">
-            <ApiKeyManager 
-              onApiKeySet={setApiKey} 
-              hasApiKey={!!apiKey}
-            />
-          </div>
-        )}
+        <div className="mb-6">
+          <ApiKeyManager 
+            onApiKeySet={setApiKey} 
+            hasApiKey={!!apiKey}
+          />
+        </div>
         
         {currentState === 'input' && (
           <CareerInput 
