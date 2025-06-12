@@ -134,7 +134,7 @@ export const CareerSuggestions = ({
       </Card>
 
       {/* Micro-Coaching CTA */}
-      <Card className="glass-effect p-6 text-center pivot-warm-gradient bg-cyan-950">
+      <Card className="glass-effect p-6 text-center pivot-warm-gradient bg-sky-950">
         <MessageCircle className="w-8 h-8 mx-auto mb-3 text-white" />
         <h3 className="font-semibold text-lg text-white mb-2">Need a pep talk or advice?</h3>
         <p className="text-white/90 mb-4 text-sm">
