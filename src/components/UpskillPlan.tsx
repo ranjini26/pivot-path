@@ -1,4 +1,3 @@
-
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -95,10 +94,10 @@ export const UpskillPlan = ({
   };
 
   const setupTasks = [
-    { icon: User, label: "Create an account", description: "Set up your learning profile and goals", completed: true },
-    { icon: Target, label: "Define your goals", description: "Clarify your career transition objectives", completed: true },
-    { icon: Upload, label: "Upload your progress", description: "Track your learning journey weekly", completed: false },
-    { icon: CheckCircle, label: "Complete your first milestone", description: "Finish week 1 foundation building", completed: false }
+    { icon: User, label: "Create learning workspace", description: "Set up dedicated space for focused practice", completed: true },
+    { icon: Target, label: "Define success metrics", description: "Establish clear goals and progress indicators", completed: true },
+    { icon: Upload, label: "Track daily progress", description: "Log completed tasks and learning insights", completed: false },
+    { icon: CheckCircle, label: "Complete first week", description: "Finish foundation building tasks", completed: false }
   ];
 
   return (
@@ -106,9 +105,9 @@ export const UpskillPlan = ({
       {/* Header */}
       <div className="flex items-center justify-between bg-white dark:bg-gray-900 p-6 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">90-Day Career Transition Plan</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">90-Day Practical Skills Plan</h1>
           <p className="mt-2 text-lg text-gray-700 dark:text-gray-300">
-            Your actionable checklist to becoming a <span className="font-semibold text-indigo-600 dark:text-indigo-400">{careerPath}</span>
+            Your hands-on checklist to master <span className="font-semibold text-indigo-600 dark:text-indigo-400">{careerPath}</span> skills
           </p>
         </div>
         <Button onClick={onBack} variant="outline" className="border-gray-300 dark:border-gray-600">
@@ -171,7 +170,7 @@ export const UpskillPlan = ({
                 </div>
               </div>
               <Badge variant="outline" className="border-indigo-200 dark:border-indigo-700 text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/20">
-                Week {goalIndex + 1}
+                Phase {goalIndex + 1}
               </Badge>
             </div>
 
@@ -179,7 +178,7 @@ export const UpskillPlan = ({
             <div className="space-y-3 mb-6">
               <h4 className="font-medium text-gray-900 dark:text-white flex items-center gap-2">
                 <List className="w-4 h-4" />
-                Daily Tasks & Learning Activities
+                Practical Tasks & Activities
               </h4>
               {goal.tasks.map((task, taskIndex) => (
                 <div key={task.id} className="flex items-start gap-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800/70 transition-colors">
@@ -217,9 +216,6 @@ export const UpskillPlan = ({
                           </span>
                         </div>
                       </div>
-                      <Button size="sm" variant="ghost" className="h-8 px-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white flex-shrink-0">
-                        <ExternalLink className="w-4 h-4" />
-                      </Button>
                     </div>
                   </div>
                 </div>
@@ -230,7 +226,7 @@ export const UpskillPlan = ({
             <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-700">
               <div className="flex items-center gap-2 mb-2">
                 <Calendar className="w-4 h-4 text-green-600 dark:text-green-400" />
-                <span className="text-sm font-medium text-green-800 dark:text-green-300">Week {goalIndex + 1} Milestone:</span>
+                <span className="text-sm font-medium text-green-800 dark:text-green-300">Phase {goalIndex + 1} Goal:</span>
               </div>
               <p className="text-sm text-green-700 dark:text-green-200">{goal.milestone}</p>
             </div>
@@ -241,9 +237,9 @@ export const UpskillPlan = ({
       {/* Call to Action */}
       <Card className="bg-gradient-to-r from-indigo-600 to-purple-600 p-8 text-center border-0 shadow-lg">
         <div className="text-white">
-          <h3 className="font-semibold text-2xl mb-3">Stay on track with daily coaching</h3>
+          <h3 className="font-semibold text-2xl mb-3">Stay accountable with daily check-ins</h3>
           <p className="text-indigo-100 mb-6 text-lg">
-            Get daily check-ins, motivation, and personalized advice throughout your 90-day journey.
+            Get daily motivation, progress tracking, and personalized guidance throughout your journey.
           </p>
           <Button 
             onClick={onStartCoaching} 
