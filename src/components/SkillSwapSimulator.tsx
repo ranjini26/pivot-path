@@ -1,8 +1,9 @@
+
 import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { RotateCcw, TrendingUp, ArrowRight, CheckCircle } from 'lucide-react';
+import { RotateCcw, TrendingUp, ArrowRight, CheckCircle, ArrowLeft, BookOpen } from 'lucide-react';
 
 interface SkillSwapSimulatorProps {
   onBack: () => void;
@@ -63,88 +64,100 @@ export const SkillSwapSimulator = ({ onBack, onStartLearningPlan, industries = [
 
   const getGrowthColor = (growth: string) => {
     switch (growth) {
-      case 'High': return 'bg-green-100 text-green-800 border-green-200';
-      case 'Medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      default: return 'bg-blue-100 text-blue-800 border-blue-200';
+      case 'High': return 'bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-lg';
+      case 'Medium': return 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg';
+      default: return 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg';
     }
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="space-y-8 animate-fade-in">
+      {/* Header */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <RotateCcw className="w-6 h-6 text-indigo-600" />
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
+            <RotateCcw className="w-6 h-6 text-white" />
+          </div>
           <div>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Skill Swap Simulator</h2>
-            <p className="text-slate-600 dark:text-slate-400">See how your skills transfer across trending industries</p>
+            <h2 className="text-3xl font-bold text-gray-900">Skill Swap Simulator</h2>
+            <p className="text-xl text-gray-600">Discover how your skills transfer across trending industries</p>
           </div>
         </div>
-        <Button onClick={onBack} variant="outline">
-          ← Back
+        <Button onClick={onBack} variant="outline" className="flex items-center gap-2 px-6 py-3">
+          <ArrowLeft className="w-4 h-4" />
+          Back to Career Paths
         </Button>
       </div>
 
-      <Card className="glass-effect p-6 border-l-4 border-l-indigo-400">
-        <div className="flex items-center gap-2 mb-3">
-          <TrendingUp className="w-5 h-5 text-indigo-600" />
-          <h3 className="font-semibold text-lg">Your Skill Transfer Analysis</h3>
+      {/* Introduction Card */}
+      <Card className="p-8 border-l-4 border-l-indigo-400 bg-gradient-to-r from-indigo-50 to-purple-50 shadow-lg">
+        <div className="flex items-center gap-4 mb-4">
+          <TrendingUp className="w-8 h-8 text-indigo-600" />
+          <h3 className="font-bold text-2xl text-gray-900">Your Skill Transfer Analysis</h3>
         </div>
-        <p className="text-slate-700 dark:text-slate-300">
-          Based on your background as a teacher, here's how your skills map to 10+ trending industries. 
-          Click on any industry to see detailed skill breakdown and start your 90-day learning plan.
+        <p className="text-lg text-gray-700 leading-relaxed">
+          Based on your background, here's how your skills map to trending industries. 
+          Click on any industry to see the detailed breakdown and start your learning journey.
         </p>
       </Card>
 
-      <div className="grid md:grid-cols-2 gap-4">
+      {/* Industry Cards Grid */}
+      <div className="grid md:grid-cols-2 gap-6">
         {industriesToShow.map((industry, index) => (
           <Card 
             key={index} 
-            className={`glass-effect p-6 hover:shadow-lg transition-all duration-200 cursor-pointer border-2 ${
-              selectedIndustry === industry.name ? 'border-indigo-400 bg-indigo-50/50' : 'hover:border-indigo-300'
+            className={`p-8 hover:shadow-2xl transition-all duration-300 cursor-pointer border-2 bg-white ${
+              selectedIndustry === industry.name 
+                ? 'border-indigo-400 bg-gradient-to-br from-indigo-50 to-purple-50 shadow-xl' 
+                : 'border-gray-200 hover:border-indigo-300'
             }`}
             onClick={() => setSelectedIndustry(industry.name)}
           >
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="flex justify-between items-start">
-                <h4 className="font-semibold text-lg text-slate-900 dark:text-slate-100">{industry.name}</h4>
-                <Badge className={getGrowthColor(industry.growth)}>
+                <h4 className="font-bold text-xl text-gray-900">{industry.name}</h4>
+                <Badge className={`${getGrowthColor(industry.growth)} px-4 py-2 font-semibold rounded-full`}>
                   {industry.growth} Growth
                 </Badge>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Skills Match</span>
-                  <span className="text-sm font-bold text-indigo-600">{industry.match}%</span>
+                  <span className="text-lg font-semibold text-gray-700">Skills Match</span>
+                  <span className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                    {industry.match}%
+                  </span>
                 </div>
-                <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                <div className="w-full bg-gray-200 rounded-full h-4 shadow-inner">
                   <div 
-                    className="h-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 transition-all duration-1000"
+                    className="h-4 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 transition-all duration-1000 shadow-lg"
                     style={{ width: `${industry.match}%` }}
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-3">
+              <div className="grid grid-cols-1 gap-6">
                 <div>
-                  <p className="text-xs font-medium text-green-700 dark:text-green-400 mb-1">
-                    ✓ Your transferable skills:
+                  <p className="text-sm font-bold text-emerald-700 mb-3 flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4" />
+                    Your transferable skills:
                   </p>
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-2">
                     {industry.skills.map((skill, i) => (
-                      <Badge key={i} variant="secondary" className="text-xs bg-green-50 text-green-700 border-green-200">
+                      <Badge key={i} className="bg-emerald-100 text-emerald-800 border-emerald-200 px-3 py-2 font-medium shadow-sm">
                         {skill}
                       </Badge>
                     ))}
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-blue-700 dark:text-blue-400 mb-1">
-                    → Skills to learn:
+                  <p className="text-sm font-bold text-blue-700 mb-3 flex items-center gap-2">
+                    <BookOpen className="w-4 h-4" />
+                    Skills to learn:
                   </p>
-                  <div className="flex flex-wrap gap-1">
+                  <div className="flex flex-wrap gap-2">
                     {industry.newSkills.map((skill, i) => (
-                      <Badge key={i} variant="outline" className="text-xs border-blue-200 text-blue-700">
+                      <Badge key={i} variant="outline" className="border-blue-200 text-blue-700 px-3 py-2 font-medium shadow-sm">
                         {skill}
                       </Badge>
                     ))}
@@ -155,10 +168,11 @@ export const SkillSwapSimulator = ({ onBack, onStartLearningPlan, industries = [
               {selectedIndustry === industry.name && (
                 <Button 
                   onClick={() => onStartLearningPlan(industry.name)}
-                  className="w-full mt-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white"
+                  className="w-full mt-6 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all"
                 >
-                  <CheckCircle className="w-4 h-4 mr-2" />
+                  <CheckCircle className="w-5 h-5 mr-3" />
                   Start 90-Day Learning Plan
+                  <ArrowRight className="w-5 h-5 ml-3" />
                 </Button>
               )}
             </div>

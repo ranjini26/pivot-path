@@ -4,21 +4,20 @@ import { PivotHeader } from '@/components/PivotHeader';
 import { CareerInput } from '@/components/CareerInput';
 import { CareerSuggestions } from '@/components/CareerSuggestions';
 import { UpskillPlan } from '@/components/UpskillPlan';
-import { MicroCoaching } from '@/components/MicroCoaching';
 import { SkillSwapSimulator } from '@/components/SkillSwapSimulator';
 import { Journal } from '@/components/Journal';
 import { ApiKeyManager } from '@/components/ApiKeyManager';
 import { useToast } from '@/hooks/use-toast';
 import { OpenAIService } from '@/services/openaiService';
 
-type AppState = 'input' | 'suggestions' | 'upskill' | 'coaching' | 'skill-swap' | 'journal';
+type AppState = 'input' | 'suggestions' | 'skill-swap' | 'upskill' | 'journal';
 
 const Index = () => {
   const [currentState, setCurrentState] = useState<AppState>('input');
   const [userStory, setUserStory] = useState('');
   const [selectedCareer, setSelectedCareer] = useState('');
   const [uploadedResume, setUploadedResume] = useState<File | null>(null);
-  const [apiKey, setApiKey] = useState('configured'); // API key now securely stored in Supabase
+  const [apiKey, setApiKey] = useState('configured');
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [successStory, setSuccessStory] = useState<any>(null);
   const [upskillPlan, setUpskillPlan] = useState<any[]>([]);
@@ -106,10 +105,7 @@ const Index = () => {
       case 'skill-swap':
         setCurrentState('skill-swap');
         break;
-      case 'mock-interview':
-        setCurrentState('coaching');
-        break;
-      case 'emotion-tracker':
+      case 'journal':
         setCurrentState('journal');
         toast({
           title: "Journal opened",
@@ -117,6 +113,10 @@ const Index = () => {
         });
         break;
     }
+  };
+
+  const handleExploreSkillSwap = () => {
+    setCurrentState('skill-swap');
   };
 
   const handleGetUpskillPlan = async (career: string) => {
@@ -144,41 +144,18 @@ const Index = () => {
     setIsGenerating(false);
   };
 
-  const handleMicroCoaching = () => {
-    setCurrentState('coaching');
-  };
-
   const handleBack = () => {
-    if (currentState === 'upskill' || currentState === 'coaching' || currentState === 'skill-swap' || currentState === 'journal') {
+    if (currentState === 'upskill') {
+      setCurrentState('skill-swap');
+    } else if (currentState === 'skill-swap' || currentState === 'journal') {
       setCurrentState('suggestions');
     } else {
       setCurrentState('input');
     }
   };
 
-  const handleSkillSwapLearningPlan = async (industry: string) => {
-    setSelectedCareer(industry);
-    setIsGenerating(true);
-    
-    try {
-      const openaiService = new OpenAIService();
-      const plan = await openaiService.generateUpskillPlan(industry, userStory);
-      setUpskillPlan(plan);
-      setCurrentState('upskill');
-      
-      toast({
-        title: "Learning plan ready!",
-        description: `Your 90-day plan for transitioning to ${industry} is ready.`,
-      });
-    } catch (error) {
-      toast({
-        title: "Failed to generate plan",
-        description: error instanceof Error ? error.message : "Please try again.",
-        variant: "destructive",
-      });
-    }
-    
-    setIsGenerating(false);
+  const handleStartJournal = () => {
+    setCurrentState('journal');
   };
 
   return (
@@ -204,15 +181,14 @@ const Index = () => {
           <CareerSuggestions
             suggestions={suggestions}
             successStory={successStory}
-            onGetUpskillPlan={handleGetUpskillPlan}
-            onMicroCoaching={handleMicroCoaching}
+            onExploreSkillSwap={handleExploreSkillSwap}
           />
         )}
         
         {currentState === 'skill-swap' && (
           <SkillSwapSimulator
             onBack={handleBack}
-            onStartLearningPlan={handleSkillSwapLearningPlan}
+            onStartLearningPlan={handleGetUpskillPlan}
             industries={skillSwapData}
           />
         )}
@@ -222,14 +198,7 @@ const Index = () => {
             careerPath={selectedCareer}
             weeklyGoals={upskillPlan}
             onBack={handleBack}
-            onStartCoaching={handleMicroCoaching}
-          />
-        )}
-        
-        {currentState === 'coaching' && (
-          <MicroCoaching
-            onBack={handleBack}
-            apiKey="configured"
+            onStartJournal={handleStartJournal}
           />
         )}
 

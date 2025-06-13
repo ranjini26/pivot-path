@@ -1,10 +1,12 @@
+
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useState } from 'react';
 import { ProgressOverview } from './upskill/ProgressOverview';
 import { WeeklyGoalCard } from './upskill/WeeklyGoalCard';
-import { ArrowLeft, Calendar, Target, BookOpen, TrendingUp } from 'lucide-react';
+import { ArrowLeft, Calendar, Target, BookOpen, TrendingUp, PenTool } from 'lucide-react';
+
 interface Task {
   id: string;
   title: string;
@@ -15,25 +17,29 @@ interface Task {
   url: string;
   completed: boolean;
 }
+
 interface WeeklyGoal {
   week: string;
   focus: string;
   tasks: Task[];
   milestone: string;
 }
+
 interface UpskillPlanProps {
   careerPath: string;
   weeklyGoals: WeeklyGoal[];
   onBack: () => void;
-  onStartCoaching: () => void;
+  onStartJournal: () => void;
 }
+
 export const UpskillPlan = ({
   careerPath,
   weeklyGoals,
   onBack,
-  onStartCoaching
+  onStartJournal
 }: UpskillPlanProps) => {
   const [checkedTasks, setCheckedTasks] = useState<Set<string>>(new Set());
+
   const handleTaskToggle = (taskId: string) => {
     const newCheckedTasks = new Set(checkedTasks);
     if (newCheckedTasks.has(taskId)) {
@@ -43,13 +49,17 @@ export const UpskillPlan = ({
     }
     setCheckedTasks(newCheckedTasks);
   };
+
   const calculateProgress = () => {
     const totalTasks = weeklyGoals.reduce((acc, goal) => acc + goal.tasks.length, 0);
     const completedTasks = checkedTasks.size;
     return totalTasks > 0 ? Math.round(completedTasks / totalTasks * 100) : 0;
   };
+
   const totalTasks = weeklyGoals.reduce((acc, goal) => acc + goal.tasks.length, 0);
-  return <div className="space-y-8 animate-fade-in">
+
+  return (
+    <div className="space-y-8 animate-fade-in">
       {/* Header Section */}
       <div className="relative">
         <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-2xl"></div>
@@ -57,7 +67,7 @@ export const UpskillPlan = ({
           <div className="flex items-center justify-between mb-6">
             <Button onClick={onBack} variant="ghost" className="hover:bg-white/20 backdrop-blur-sm text-zinc-50">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Suggestions
+              Back to Skill Swap
             </Button>
           </div>
           
@@ -111,7 +121,11 @@ export const UpskillPlan = ({
       </div>
 
       {/* Progress Overview */}
-      <ProgressOverview checkedTasksCount={checkedTasks.size} totalTasksCount={totalTasks} progressPercentage={calculateProgress()} />
+      <ProgressOverview 
+        checkedTasksCount={checkedTasks.size} 
+        totalTasksCount={totalTasks} 
+        progressPercentage={calculateProgress()} 
+      />
 
       {/* Weekly Goals */}
       <div className="space-y-6">
@@ -122,25 +136,34 @@ export const UpskillPlan = ({
           </Badge>
         </div>
         
-        {weeklyGoals.map((goal, goalIndex) => <WeeklyGoalCard key={goalIndex} goal={goal} goalIndex={goalIndex} checkedTasks={checkedTasks} onTaskToggle={handleTaskToggle} />)}
+        {weeklyGoals.map((goal, goalIndex) => (
+          <WeeklyGoalCard 
+            key={goalIndex} 
+            goal={goal} 
+            goalIndex={goalIndex} 
+            checkedTasks={checkedTasks} 
+            onTaskToggle={handleTaskToggle} 
+          />
+        ))}
       </div>
 
-      {/* Coaching CTA */}
+      {/* Journal CTA */}
       <Card className="p-8 text-center bg-gradient-to-r from-emerald-500 to-teal-500 border-0">
         <div className="space-y-4">
           <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto">
-            <Target className="w-8 h-8 text-white" />
+            <PenTool className="w-8 h-8 text-white" />
           </div>
           <div>
-            <h3 className="font-bold text-2xl text-white mb-2">Stay on track with daily check-ins</h3>
+            <h3 className="font-bold text-2xl text-white mb-2">Document your learning journey</h3>
             <p className="text-white/90 mb-6 text-lg">
-              Get personalized guidance, progress tracking, and motivation throughout your journey.
+              Keep track of your progress, insights, and pivoting thoughts in your personal journal.
             </p>
           </div>
-          <Button onClick={onStartCoaching} className="bg-white/20 hover:bg-white/30 border border-white/30 text-white px-8 py-3 text-lg">
-            Enable Daily Coaching
+          <Button onClick={onStartJournal} className="bg-white/20 hover:bg-white/30 border border-white/30 text-white px-8 py-3 text-lg">
+            Open Learning Journal
           </Button>
         </div>
       </Card>
-    </div>;
+    </div>
+  );
 };
