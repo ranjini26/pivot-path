@@ -37,11 +37,11 @@ export const CareerSuggestions = ({
   const getGrowthColor = (growth: string) => {
     switch (growth) {
       case 'High':
-        return 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-700';
+        return 'bg-gradient-to-r from-emerald-500 to-green-500 text-white border-0 shadow-lg shadow-emerald-200 dark:shadow-emerald-900/30';
       case 'Medium':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-300 dark:border-yellow-700';
+        return 'bg-gradient-to-r from-amber-500 to-yellow-500 text-white border-0 shadow-lg shadow-amber-200 dark:shadow-amber-900/30';
       default:
-        return 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-700';
+        return 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white border-0 shadow-lg shadow-blue-200 dark:shadow-blue-900/30';
     }
   };
 
@@ -66,28 +66,30 @@ export const CareerSuggestions = ({
         </h3>
         
         {suggestions.map((suggestion, index) => (
-          <Card key={index} className="glass-effect p-6 hover:shadow-lg transition-all duration-200">
-            <div className="flex justify-between items-start mb-4">
+          <Card key={index} className="glass-effect p-6 hover:shadow-xl transition-all duration-300 border-l-4 border-l-indigo-500">
+            <div className="flex justify-between items-start mb-6">
               <div>
                 <h4 className="font-semibold text-lg text-slate-900 dark:text-slate-100">{suggestion.title}</h4>
                 <p className="mt-1 text-slate-700 dark:text-slate-300">{suggestion.description}</p>
               </div>
-              <Badge className={getGrowthColor(suggestion.growthPotential)}>
+              <Badge className={`${getGrowthColor(suggestion.growthPotential)} px-4 py-2 text-sm font-medium rounded-full`}>
                 {suggestion.growthPotential} Growth
               </Badge>
             </div>
             
-            <div className="mb-4">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
-                  <div 
-                    className="h-2 rounded-full pivot-gradient transition-all duration-1000 ease-out" 
-                    style={{ width: `${suggestion.skillMatchPercentage}%` }}
-                  />
-                </div>
-                <span className="text-sm font-medium text-slate-900 dark:text-slate-100 min-w-fit">
-                  {suggestion.skillMatchPercentage}% skills match
+            <div className="mb-6">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                  Skills Match: {suggestion.skillMatchPercentage}%
                 </span>
+              </div>
+              <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-3 shadow-inner">
+                <div 
+                  className="h-3 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 shadow-lg transition-all duration-1000 ease-out relative overflow-hidden" 
+                  style={{ width: `${suggestion.skillMatchPercentage}%` }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"></div>
+                </div>
               </div>
             </div>
 
@@ -120,7 +122,7 @@ export const CareerSuggestions = ({
 
             <Button 
               onClick={() => onGetUpskillPlan(suggestion.title)} 
-              className="w-full mt-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white"
+              className="w-full mt-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-200"
             >
               <BookOpen className="w-4 h-4 mr-2" />
               Get 90-Day Upskill Plan

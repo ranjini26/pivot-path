@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { PivotHeader } from '@/components/PivotHeader';
 import { CareerInput } from '@/components/CareerInput';
@@ -5,11 +6,12 @@ import { CareerSuggestions } from '@/components/CareerSuggestions';
 import { UpskillPlan } from '@/components/UpskillPlan';
 import { MicroCoaching } from '@/components/MicroCoaching';
 import { SkillSwapSimulator } from '@/components/SkillSwapSimulator';
+import { Journal } from '@/components/Journal';
 import { ApiKeyManager } from '@/components/ApiKeyManager';
 import { useToast } from '@/hooks/use-toast';
 import { OpenAIService } from '@/services/openaiService';
 
-type AppState = 'input' | 'suggestions' | 'upskill' | 'coaching' | 'skill-swap';
+type AppState = 'input' | 'suggestions' | 'upskill' | 'coaching' | 'skill-swap' | 'journal';
 
 const Index = () => {
   const [currentState, setCurrentState] = useState<AppState>('input');
@@ -108,9 +110,10 @@ const Index = () => {
         setCurrentState('coaching');
         break;
       case 'emotion-tracker':
+        setCurrentState('journal');
         toast({
-          title: "Emotion Tracker Active",
-          description: "We're now monitoring your tone and will provide encouraging support when needed.",
+          title: "Journal opened",
+          description: "Start documenting your learning journey and thoughts.",
         });
         break;
     }
@@ -146,7 +149,7 @@ const Index = () => {
   };
 
   const handleBack = () => {
-    if (currentState === 'upskill' || currentState === 'coaching' || currentState === 'skill-swap') {
+    if (currentState === 'upskill' || currentState === 'coaching' || currentState === 'skill-swap' || currentState === 'journal') {
       setCurrentState('suggestions');
     } else {
       setCurrentState('input');
@@ -227,6 +230,12 @@ const Index = () => {
           <MicroCoaching
             onBack={handleBack}
             apiKey="configured"
+          />
+        )}
+
+        {currentState === 'journal' && (
+          <Journal
+            onBack={handleBack}
           />
         )}
       </div>

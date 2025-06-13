@@ -59,16 +59,30 @@ export const UpskillPlan = ({
   return (
     <div className="space-y-8 animate-fade-in max-w-6xl mx-auto">
       {/* Header */}
-      <div className="flex items-center justify-between bg-white dark:bg-gray-900 p-6 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">90-Day Practical Skills Plan</h1>
-          <p className="mt-2 text-lg text-gray-700 dark:text-gray-300">
-            Your hands-on checklist to master <span className="font-semibold text-indigo-600 dark:text-indigo-400">{careerPath}</span> skills
-          </p>
+      <div className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 p-8 rounded-xl shadow-2xl text-white">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-bold mb-3">90-Day Practical Skills Plan</h1>
+            <p className="text-xl text-indigo-100">
+              Your hands-on checklist to master <span className="font-bold text-yellow-300">{careerPath}</span> skills
+            </p>
+            <div className="mt-4 flex items-center gap-4">
+              <div className="bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2">
+                <span className="text-sm font-medium">Total Tasks: {totalTasks}</span>
+              </div>
+              <div className="bg-white/20 backdrop-blur-sm rounded-lg px-4 py-2">
+                <span className="text-sm font-medium">Progress: {calculateProgress()}%</span>
+              </div>
+            </div>
+          </div>
+          <Button 
+            onClick={onBack} 
+            variant="outline" 
+            className="border-white/30 text-white hover:bg-white/20 backdrop-blur-sm"
+          >
+            ← Back to Suggestions
+          </Button>
         </div>
-        <Button onClick={onBack} variant="outline" className="border-gray-300 dark:border-gray-600">
-          ← Back to Suggestions
-        </Button>
       </div>
 
       {/* Progress Overview */}
@@ -92,15 +106,15 @@ export const UpskillPlan = ({
       </div>
 
       {/* Call to Action */}
-      <Card className="bg-gradient-to-r from-indigo-600 to-purple-600 p-8 text-center border-0 shadow-lg">
+      <Card className="bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 p-8 text-center border-0 shadow-2xl">
         <div className="text-white">
-          <h3 className="font-semibold text-2xl mb-3">Stay accountable with daily check-ins</h3>
-          <p className="text-indigo-100 mb-6 text-lg">
+          <h3 className="font-bold text-3xl mb-4">Stay accountable with daily check-ins</h3>
+          <p className="text-emerald-100 mb-6 text-lg">
             Get daily motivation, progress tracking, and personalized guidance throughout your journey.
           </p>
           <Button 
             onClick={onStartCoaching} 
-            className="bg-white/20 hover:bg-white/30 border border-white/30 text-white backdrop-blur-sm px-8 py-3 text-lg"
+            className="bg-white/20 hover:bg-white/30 border border-white/30 text-white backdrop-blur-sm px-8 py-3 text-lg shadow-lg hover:shadow-xl transition-all duration-200"
           >
             Enable Daily Progress Coaching
           </Button>
