@@ -1,4 +1,3 @@
-
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -6,7 +5,6 @@ import { useState } from 'react';
 import { ProgressOverview } from './upskill/ProgressOverview';
 import { WeeklyGoalCard } from './upskill/WeeklyGoalCard';
 import { ArrowLeft, Calendar, Target, BookOpen, TrendingUp } from 'lucide-react';
-
 interface Task {
   id: string;
   title: string;
@@ -17,21 +15,18 @@ interface Task {
   url: string;
   completed: boolean;
 }
-
 interface WeeklyGoal {
   week: string;
   focus: string;
   tasks: Task[];
   milestone: string;
 }
-
 interface UpskillPlanProps {
   careerPath: string;
   weeklyGoals: WeeklyGoal[];
   onBack: () => void;
   onStartCoaching: () => void;
 }
-
 export const UpskillPlan = ({
   careerPath,
   weeklyGoals,
@@ -39,7 +34,6 @@ export const UpskillPlan = ({
   onStartCoaching
 }: UpskillPlanProps) => {
   const [checkedTasks, setCheckedTasks] = useState<Set<string>>(new Set());
-
   const handleTaskToggle = (taskId: string) => {
     const newCheckedTasks = new Set(checkedTasks);
     if (newCheckedTasks.has(taskId)) {
@@ -49,27 +43,19 @@ export const UpskillPlan = ({
     }
     setCheckedTasks(newCheckedTasks);
   };
-
   const calculateProgress = () => {
     const totalTasks = weeklyGoals.reduce((acc, goal) => acc + goal.tasks.length, 0);
     const completedTasks = checkedTasks.size;
-    return totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+    return totalTasks > 0 ? Math.round(completedTasks / totalTasks * 100) : 0;
   };
-
   const totalTasks = weeklyGoals.reduce((acc, goal) => acc + goal.tasks.length, 0);
-
-  return (
-    <div className="space-y-8 animate-fade-in">
+  return <div className="space-y-8 animate-fade-in">
       {/* Header Section */}
       <div className="relative">
         <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-2xl"></div>
-        <div className="relative bg-white/10 backdrop-blur-sm rounded-2xl p-8 text-white">
+        <div className="relative backdrop-blur-sm rounded-2xl p-8 text-white bg-sky-950">
           <div className="flex items-center justify-between mb-6">
-            <Button 
-              onClick={onBack} 
-              variant="ghost" 
-              className="text-white hover:bg-white/20 backdrop-blur-sm"
-            >
+            <Button onClick={onBack} variant="ghost" className="hover:bg-white/20 backdrop-blur-sm text-zinc-50">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back to Suggestions
             </Button>
@@ -81,7 +67,7 @@ export const UpskillPlan = ({
                 <BookOpen className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold">90-Day Practical Skills Plan</h1>
+                <h1 className="text-3xl font-bold text-zinc-50">90-Day Practical Skills Plan</h1>
                 <p className="text-white/90">Master <span className="font-semibold text-yellow-300">{careerPath}</span> skills with hands-on practice</p>
               </div>
             </div>
@@ -93,7 +79,7 @@ export const UpskillPlan = ({
                   <Target className="w-4 h-4" />
                   <span className="text-sm font-medium">Total Tasks</span>
                 </div>
-                <p className="text-2xl font-bold">{totalTasks}</p>
+                <p className="text-2xl font-bold text-zinc-50">{totalTasks}</p>
               </div>
               
               <div className="bg-white/20 backdrop-blur-sm rounded-lg p-4">
@@ -101,7 +87,7 @@ export const UpskillPlan = ({
                   <TrendingUp className="w-4 h-4" />
                   <span className="text-sm font-medium">Progress</span>
                 </div>
-                <p className="text-2xl font-bold">{calculateProgress()}%</p>
+                <p className="text-2xl font-bold text-zinc-50">{calculateProgress()}%</p>
               </div>
               
               <div className="bg-white/20 backdrop-blur-sm rounded-lg p-4">
@@ -109,7 +95,7 @@ export const UpskillPlan = ({
                   <Calendar className="w-4 h-4" />
                   <span className="text-sm font-medium">Weeks</span>
                 </div>
-                <p className="text-2xl font-bold">{weeklyGoals.length}</p>
+                <p className="text-2xl font-bold text-zinc-50">{weeklyGoals.length}</p>
               </div>
               
               <div className="bg-white/20 backdrop-blur-sm rounded-lg p-4">
@@ -117,7 +103,7 @@ export const UpskillPlan = ({
                   <BookOpen className="w-4 h-4" />
                   <span className="text-sm font-medium">Completed</span>
                 </div>
-                <p className="text-2xl font-bold">{checkedTasks.size}</p>
+                <p className="text-2xl font-bold text-zinc-50">{checkedTasks.size}</p>
               </div>
             </div>
           </div>
@@ -125,11 +111,7 @@ export const UpskillPlan = ({
       </div>
 
       {/* Progress Overview */}
-      <ProgressOverview 
-        checkedTasksCount={checkedTasks.size}
-        totalTasksCount={totalTasks}
-        progressPercentage={calculateProgress()}
-      />
+      <ProgressOverview checkedTasksCount={checkedTasks.size} totalTasksCount={totalTasks} progressPercentage={calculateProgress()} />
 
       {/* Weekly Goals */}
       <div className="space-y-6">
@@ -140,15 +122,7 @@ export const UpskillPlan = ({
           </Badge>
         </div>
         
-        {weeklyGoals.map((goal, goalIndex) => (
-          <WeeklyGoalCard
-            key={goalIndex}
-            goal={goal}
-            goalIndex={goalIndex}
-            checkedTasks={checkedTasks}
-            onTaskToggle={handleTaskToggle}
-          />
-        ))}
+        {weeklyGoals.map((goal, goalIndex) => <WeeklyGoalCard key={goalIndex} goal={goal} goalIndex={goalIndex} checkedTasks={checkedTasks} onTaskToggle={handleTaskToggle} />)}
       </div>
 
       {/* Coaching CTA */}
@@ -163,14 +137,10 @@ export const UpskillPlan = ({
               Get personalized guidance, progress tracking, and motivation throughout your journey.
             </p>
           </div>
-          <Button 
-            onClick={onStartCoaching} 
-            className="bg-white/20 hover:bg-white/30 border border-white/30 text-white px-8 py-3 text-lg"
-          >
+          <Button onClick={onStartCoaching} className="bg-white/20 hover:bg-white/30 border border-white/30 text-white px-8 py-3 text-lg">
             Enable Daily Coaching
           </Button>
         </div>
       </Card>
-    </div>
-  );
+    </div>;
 };
