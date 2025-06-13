@@ -1,9 +1,7 @@
-
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { TrendingUp, Star, ArrowRight, BarChart3, RotateCcw, User, Clock, Lightbulb } from 'lucide-react';
-
 interface CareerSuggestion {
   title: string;
   description: string;
@@ -12,7 +10,6 @@ interface CareerSuggestion {
   skillMatchPercentage: number;
   growthPotential: 'High' | 'Medium' | 'Steady';
 }
-
 interface SuccessStory {
   name: string;
   fromRole: string;
@@ -20,13 +17,11 @@ interface SuccessStory {
   timeframe: string;
   keyInsight: string;
 }
-
 interface CareerSuggestionsProps {
   suggestions: CareerSuggestion[];
   successStory: SuccessStory;
   onExploreSkillSwap: () => void;
 }
-
 export const CareerSuggestions = ({
   suggestions,
   successStory,
@@ -42,9 +37,7 @@ export const CareerSuggestions = ({
         return 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg';
     }
   };
-
-  return (
-    <div className="space-y-6 sm:space-y-8 animate-fade-in px-4">
+  return <div className="space-y-6 sm:space-y-8 animate-fade-in px-4">
       {/* Hero Section */}
       <div className="text-center space-y-3 sm:space-y-4">
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
@@ -107,8 +100,7 @@ export const CareerSuggestions = ({
           </Badge>
         </div>
         
-        {suggestions.map((suggestion, index) => (
-          <Card key={index} className="p-4 sm:p-6 lg:p-8 hover:shadow-2xl transition-all duration-300 border border-gray-200 bg-white shadow-lg">
+        {suggestions.map((suggestion, index) => <Card key={index} className="p-4 sm:p-6 lg:p-8 hover:shadow-2xl transition-all duration-300 border border-gray-200 bg-white shadow-lg">
             <div className="space-y-4 sm:space-y-6">
               {/* Header */}
               <div className="flex items-start justify-between gap-3">
@@ -132,10 +124,9 @@ export const CareerSuggestions = ({
                   </span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-3 sm:h-4 overflow-hidden shadow-inner">
-                  <div 
-                    className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full transition-all duration-1000 ease-out relative shadow-lg" 
-                    style={{ width: `${suggestion.skillMatchPercentage}%` }}
-                  >
+                  <div className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full transition-all duration-1000 ease-out relative shadow-lg" style={{
+                width: `${suggestion.skillMatchPercentage}%`
+              }}>
                     <div className="absolute inset-0 bg-gradient-to-r from-white/40 to-transparent rounded-full"></div>
                   </div>
                 </div>
@@ -149,11 +140,9 @@ export const CareerSuggestions = ({
                     Skills you already have
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {suggestion.transferableSkills.map((skill, i) => (
-                      <Badge key={i} className="bg-emerald-100 text-emerald-800 border-emerald-200 px-2 py-1 sm:px-3 sm:py-2 font-medium shadow-sm hover:shadow-md transition-shadow text-xs sm:text-sm">
+                    {suggestion.transferableSkills.map((skill, i) => <Badge key={i} className="bg-emerald-100 text-emerald-800 border-emerald-200 px-2 py-1 sm:px-3 sm:py-2 font-medium shadow-sm hover:shadow-md transition-shadow text-xs sm:text-sm">
                         {skill}
-                      </Badge>
-                    ))}
+                      </Badge>)}
                   </div>
                 </div>
 
@@ -163,73 +152,18 @@ export const CareerSuggestions = ({
                     Skills to develop
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {suggestion.newSkillsNeeded.map((skill, i) => (
-                      <Badge key={i} variant="outline" className="border-blue-200 text-blue-700 px-2 py-1 sm:px-3 sm:py-2 font-medium shadow-sm hover:shadow-md transition-shadow text-xs sm:text-sm">
+                    {suggestion.newSkillsNeeded.map((skill, i) => <Badge key={i} variant="outline" className="border-blue-200 text-blue-700 px-2 py-1 sm:px-3 sm:py-2 font-medium shadow-sm hover:shadow-md transition-shadow text-xs sm:text-sm">
                         {skill}
-                      </Badge>
-                    ))}
+                      </Badge>)}
                   </div>
                 </div>
               </div>
             </div>
-          </Card>
-        ))}
+          </Card>)}
       </div>
 
       {/* Success Story */}
-      {successStory && (
-        <Card className="p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200 shadow-lg">
-          <div className="space-y-4 sm:space-y-6">
-            <div className="flex items-center gap-2 sm:gap-3">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-amber-500 rounded-xl flex items-center justify-center shadow-lg">
-                <Star className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-              </div>
-              <div>
-                <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-amber-900">Success Story</h3>
-                <p className="text-amber-700 text-sm sm:text-base">Real inspiration from someone who made the leap</p>
-              </div>
-            </div>
-            
-            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-lg border border-amber-200">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <User className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600" />
-                  <div>
-                    <p className="text-xs sm:text-sm text-gray-600">Name</p>
-                    <p className="font-semibold text-gray-900 text-sm sm:text-base">{successStory.name}</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600" />
-                  <div>
-                    <p className="text-xs sm:text-sm text-gray-600">Career Change</p>
-                    <p className="font-semibold text-gray-900 text-sm sm:text-base">{successStory.fromRole} → {successStory.toRole}</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-2 sm:gap-3">
-                  <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600" />
-                  <div>
-                    <p className="text-xs sm:text-sm text-gray-600">Timeframe</p>
-                    <p className="font-semibold text-gray-900 text-sm sm:text-base">{successStory.timeframe}</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-amber-100">
-                <div className="flex items-start gap-2 sm:gap-3">
-                  <Lightbulb className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600 mt-1 flex-shrink-0" />
-                  <div>
-                    <p className="text-xs sm:text-sm text-gray-600 mb-1">Key Insight</p>
-                    <p className="text-gray-800 leading-relaxed text-sm sm:text-base">{successStory.keyInsight}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Card>
-      )}
+      {successStory}
 
       {/* Next Step CTA */}
       <Card className="p-6 sm:p-8 lg:p-10 text-center bg-gradient-to-r from-indigo-500 to-purple-600 border-0 shadow-2xl">
@@ -243,15 +177,11 @@ export const CareerSuggestions = ({
               See how your skills map across trending industries and discover unexpected opportunities.
             </p>
           </div>
-          <Button 
-            onClick={onExploreSkillSwap} 
-            className="bg-white/20 hover:bg-white/30 border border-white/30 text-white px-6 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-5 font-semibold shadow-lg hover:shadow-xl transition-all text-sm sm:text-base lg:text-lg w-full sm:w-auto"
-          >
+          <Button onClick={onExploreSkillSwap} className="bg-white/20 hover:bg-white/30 border border-white/30 text-white px-6 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-5 font-semibold shadow-lg hover:shadow-xl transition-all text-sm sm:text-base lg:text-lg w-full sm:w-auto">
             Explore Skill Swap Simulator
             <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 ml-2 sm:ml-3" />
           </Button>
         </div>
       </Card>
-    </div>
-  );
+    </div>;
 };
