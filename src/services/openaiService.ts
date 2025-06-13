@@ -52,7 +52,7 @@ export class OpenAIService {
           "suggestions": [
             {
               "title": "Job Title",
-              "description": "Why this matches their background",
+              "description": "Why this matches their background and specific opportunities available",
               "transferableSkills": ["Skill 1", "Skill 2", "Skill 3"],
               "newSkillsNeeded": ["New Skill 1", "New Skill 2"],
               "skillMatchPercentage": 85,
@@ -68,7 +68,7 @@ export class OpenAIService {
           }
         }
         
-        Make the suggestions specific and actionable. Focus on transferable skills.`
+        Make the suggestions specific and actionable. Focus on transferable skills and provide realistic career paths.`
       },
       {
         role: 'user',
@@ -86,7 +86,7 @@ export class OpenAIService {
         suggestions: [
           {
             title: "Career Transition Specialist",
-            description: "Based on your story, this role would leverage your experience",
+            description: "Based on your story, this role would leverage your experience in helping others navigate change",
             transferableSkills: ["Communication", "Problem Solving", "Analysis"],
             newSkillsNeeded: ["Industry Knowledge", "Digital Tools"],
             skillMatchPercentage: 75,
@@ -119,7 +119,7 @@ export class OpenAIService {
           }
         ]
         
-        Make the analysis specific to their background and realistic.`
+        Make the analysis specific to their background and realistic. Focus on practical career transitions.`
       },
       {
         role: 'user',
@@ -149,25 +149,25 @@ export class OpenAIService {
     const messages: OpenAIMessage[] = [
       {
         role: 'system',
-        content: `Create a 90-day upskilling plan. Return JSON with this structure:
+        content: `Create a practical 90-day upskilling plan with specific, actionable resources. Return JSON with this structure:
         [
           {
-            "week": "Weeks 1-4: Foundation",
-            "focus": "Learning Focus",
+            "week": "Weeks 1-4: Foundation Building",
+            "focus": "Core Skills Development",
             "resources": [
               {
-                "title": "Resource Name",
+                "title": "Specific Course Name",
                 "type": "Course",
-                "platform": "Platform Name",
-                "duration": "4 hours",
+                "platform": "Coursera/edX/YouTube",
+                "duration": "20 hours",
                 "url": "#"
               }
             ],
-            "milestone": "What to achieve"
+            "milestone": "Complete foundational knowledge and create first project"
           }
         ]
         
-        Make it practical and actionable for their transition.`
+        Make it highly practical with real learning resources, specific skills, and actionable milestones. Each week should build on the previous one and lead to tangible progress toward the career goal.`
       },
       {
         role: 'user',
@@ -178,25 +178,65 @@ export class OpenAIService {
     const response = await this.makeRequest(messages, 0.3);
     
     try {
-      return JSON.parse(response);
+      const plan = JSON.parse(response);
+      // Ensure we have a practical plan structure
+      return plan.length > 0 ? plan : this.generateFallbackPlan(careerPath);
     } catch {
-      // Fallback plan
-      return [
-        {
-          week: "Weeks 1-4: Foundation Building",
-          focus: "Core Skills Development",
-          resources: [
-            {
-              title: "Industry Fundamentals",
-              type: "Course" as const,
-              platform: "Online Learning",
-              duration: "20 hours",
-              url: "#"
-            }
-          ],
-          milestone: "Complete foundational knowledge"
-        }
-      ];
+      return this.generateFallbackPlan(careerPath);
     }
+  }
+
+  private generateFallbackPlan(careerPath: string) {
+    return [
+      {
+        week: "Weeks 1-4: Foundation Building",
+        focus: `Core ${careerPath} Fundamentals`,
+        resources: [
+          {
+            title: `Introduction to ${careerPath}`,
+            type: "Course" as const,
+            platform: "Coursera",
+            duration: "20 hours",
+            url: "#"
+          },
+          {
+            title: "Industry Best Practices",
+            type: "Article" as const,
+            platform: "Medium",
+            duration: "5 hours",
+            url: "#"
+          }
+        ],
+        milestone: "Complete foundational knowledge and understand industry basics"
+      },
+      {
+        week: "Weeks 5-8: Skill Development",
+        focus: "Hands-on Practice & Tools",
+        resources: [
+          {
+            title: "Practical Skills Workshop",
+            type: "Practice" as const,
+            platform: "YouTube",
+            duration: "15 hours",
+            url: "#"
+          }
+        ],
+        milestone: "Build first portfolio project demonstrating key skills"
+      },
+      {
+        week: "Weeks 9-12: Portfolio & Networking",
+        focus: "Professional Preparation",
+        resources: [
+          {
+            title: "Portfolio Development",
+            type: "Practice" as const,
+            platform: "Self-directed",
+            duration: "25 hours",
+            url: "#"
+          }
+        ],
+        milestone: "Complete professional portfolio and begin networking"
+      }
+    ];
   }
 }

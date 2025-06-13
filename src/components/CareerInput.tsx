@@ -37,13 +37,13 @@ export const CareerInput = ({ onSubmit, isLoading }: CareerInputProps) => {
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
       {/* Input Section */}
-      <Card className="glass-effect p-8 border border-slate-200 dark:border-slate-700 shadow-xl">
+      <Card className="bg-white dark:bg-gray-900 p-8 border border-gray-200 dark:border-gray-700 shadow-lg">
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-4">
             <Lightbulb className="w-6 h-6 text-amber-500" />
-            <h3 className="font-semibold text-xl text-slate-900 dark:text-slate-100">Tell me your story</h3>
+            <h3 className="font-semibold text-xl text-gray-900 dark:text-white">Tell me your story</h3>
           </div>
-          <p className="text-slate-700 dark:text-slate-300 mb-6 text-lg leading-relaxed">
+          <p className="text-gray-700 dark:text-gray-300 mb-6 text-lg leading-relaxed">
             Share your current situation, what you're struggling with, and what kind of change you're seeking.
           </p>
           
@@ -52,13 +52,13 @@ export const CareerInput = ({ onSubmit, isLoading }: CareerInputProps) => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="I'm currently working as... but I'm feeling stuck because..."
-              className="min-h-[140px] resize-none border-2 border-slate-300 dark:border-slate-600 focus:border-indigo-500 transition-colors text-base text-slate-900 dark:text-slate-100 bg-white dark:bg-slate-800 placeholder:text-slate-500"
+              className="min-h-[140px] resize-none border-2 border-gray-300 dark:border-gray-600 focus:border-indigo-500 dark:focus:border-indigo-400 transition-colors text-base text-gray-900 dark:text-white bg-white dark:bg-gray-800 placeholder:text-gray-500 dark:placeholder:text-gray-400"
               disabled={isLoading}
             />
 
             {/* Resume Upload */}
             <div className="space-y-3">
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Upload your resume (optional but recommended)
               </label>
               <div className="flex items-center gap-4">
@@ -70,21 +70,21 @@ export const CareerInput = ({ onSubmit, isLoading }: CareerInputProps) => {
                     className="hidden"
                     disabled={isLoading}
                   />
-                  <div className="flex items-center gap-2 px-4 py-2 border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg hover:border-indigo-400 transition-colors">
-                    <Upload className="w-4 h-4 text-slate-500" />
-                    <span className="text-sm text-slate-600 dark:text-slate-400">
+                  <div className="flex items-center gap-2 px-4 py-2 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors">
+                    <Upload className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                    <span className="text-sm text-gray-600 dark:text-gray-400">
                       Choose file
                     </span>
                   </div>
                 </label>
                 {resume && (
-                  <div className="flex items-center gap-2 text-sm text-green-600">
+                  <div className="flex items-center gap-2 text-sm text-green-600 dark:text-green-400">
                     <FileText className="w-4 h-4" />
                     <span>{resume.name}</span>
                   </div>
                 )}
               </div>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 PDF or image files only. This helps our AI provide more accurate career suggestions.
               </p>
             </div>
@@ -110,14 +110,14 @@ export const CareerInput = ({ onSubmit, isLoading }: CareerInputProps) => {
         </div>
 
         <div className="space-y-4">
-          <p className="text-base font-medium text-slate-700 dark:text-slate-300">Need inspiration? Try these:</p>
+          <p className="text-base font-medium text-gray-700 dark:text-gray-300">Need inspiration? Try these:</p>
           <div className="space-y-3">
             {examplePrompts.map((prompt, index) => (
               <button
                 key={index}
                 onClick={() => setInput(prompt)}
                 disabled={isLoading}
-                className="w-full text-left p-4 rounded-lg bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors text-sm border border-slate-200 dark:border-slate-600 hover:border-slate-300 dark:hover:border-slate-500 disabled:opacity-50 disabled:cursor-not-allowed text-slate-800 dark:text-slate-200"
+                className="w-full text-left p-4 rounded-lg bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-sm border border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500 disabled:opacity-50 disabled:cursor-not-allowed text-gray-800 dark:text-gray-200"
               >
                 "{prompt}"
               </button>
@@ -127,14 +127,14 @@ export const CareerInput = ({ onSubmit, isLoading }: CareerInputProps) => {
       </Card>
 
       {/* What You'll Get Section */}
-      <Card className="glass-effect p-6 border-l-4 border-l-indigo-400">
+      <Card className="bg-white dark:bg-gray-900 p-6 border-l-4 border-l-indigo-400 dark:border-l-indigo-500 border border-gray-200 dark:border-gray-700">
         <div className="flex items-start gap-3">
-          <ArrowRight className="w-5 h-5 text-indigo-600 mt-1 flex-shrink-0" />
+          <ArrowRight className="w-5 h-5 text-indigo-600 dark:text-indigo-400 mt-1 flex-shrink-0" />
           <div>
-            <h3 className="font-semibold text-lg text-slate-900 dark:text-slate-100 mb-2">
+            <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-2">
               What you'll get in 60 seconds:
             </h3>
-            <ul className="space-y-1 text-sm text-slate-700 dark:text-slate-300">
+            <ul className="space-y-1 text-sm text-gray-700 dark:text-gray-300">
               <li>• 3 career directions that match your transferable skills</li>
               <li>• Skill transfer analysis across trending industries</li>
               <li>• 90-day upskilling plan with free resources</li>
