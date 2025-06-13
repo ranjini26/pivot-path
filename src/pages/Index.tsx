@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { PivotHeader } from '@/components/PivotHeader';
 import { CareerInput } from '@/components/CareerInput';
@@ -92,27 +91,8 @@ const Index = () => {
   };
 
   const handleFeatureClick = (feature: string) => {
-    if (!userStory) {
-      toast({
-        title: "Please share your story first",
-        description: "Tell us about your current situation to access these features.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    switch (feature) {
-      case 'skill-swap':
-        setCurrentState('skill-swap');
-        break;
-      case 'journal':
-        setCurrentState('journal');
-        toast({
-          title: "Journal opened",
-          description: "Start documenting your learning journey and thoughts.",
-        });
-        break;
-    }
+    // Remove the feature click functionality since we want a linear flow
+    return;
   };
 
   const handleExploreSkillSwap = () => {
@@ -147,8 +127,10 @@ const Index = () => {
   const handleBack = () => {
     if (currentState === 'upskill') {
       setCurrentState('skill-swap');
-    } else if (currentState === 'skill-swap' || currentState === 'journal') {
+    } else if (currentState === 'skill-swap') {
       setCurrentState('suggestions');
+    } else if (currentState === 'journal') {
+      setCurrentState('upskill');
     } else {
       setCurrentState('input');
     }
