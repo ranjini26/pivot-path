@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { PivotHeader } from '@/components/PivotHeader';
 import { CareerInput } from '@/components/CareerInput';
@@ -103,6 +104,11 @@ const Index = () => {
     setSelectedCareer(career);
     setIsGenerating(true);
     
+    toast({
+      title: "Generating your learning plan...",
+      description: `Creating a personalized 90-day plan for ${career}`,
+    });
+    
     try {
       const openaiService = new OpenAIService();
       const plan = await openaiService.generateUpskillPlan(career, userStory);
@@ -126,7 +132,7 @@ const Index = () => {
 
   const handleBack = () => {
     if (currentState === 'upskill') {
-      setCurrentState('skill-swap');
+      setCurrentState('suggestions');
     } else if (currentState === 'skill-swap') {
       setCurrentState('suggestions');
     } else if (currentState === 'journal') {
@@ -164,6 +170,7 @@ const Index = () => {
             suggestions={suggestions}
             successStory={successStory}
             onExploreSkillSwap={handleExploreSkillSwap}
+            onGetUpskillPlan={handleGetUpskillPlan}
           />
         )}
         

@@ -1,7 +1,8 @@
+
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, Star, ArrowRight, BarChart3, RotateCcw, User, Clock, Lightbulb } from 'lucide-react';
+import { TrendingUp, Star, ArrowRight, BarChart3, RotateCcw, User, Clock, Lightbulb, BookOpen } from 'lucide-react';
 
 interface CareerSuggestion {
   title: string;
@@ -24,12 +25,14 @@ interface CareerSuggestionsProps {
   suggestions: CareerSuggestion[];
   successStory: SuccessStory;
   onExploreSkillSwap: () => void;
+  onGetUpskillPlan?: (careerTitle: string) => void;
 }
 
 export const CareerSuggestions = ({
   suggestions,
   successStory,
-  onExploreSkillSwap
+  onExploreSkillSwap,
+  onGetUpskillPlan
 }: CareerSuggestionsProps) => {
   const getGrowthColor = (growth: string) => {
     switch (growth) {
@@ -106,7 +109,8 @@ export const CareerSuggestions = ({
           </Badge>
         </div>
         
-        {suggestions.map((suggestion, index) => <Card key={index} className="p-4 sm:p-6 lg:p-8 hover:shadow-2xl transition-all duration-300 border border-gray-200 bg-white shadow-lg">
+        {suggestions.map((suggestion, index) => (
+          <Card key={index} className="p-4 sm:p-6 lg:p-8 hover:shadow-2xl transition-all duration-300 border border-gray-200 bg-white shadow-lg">
             <div className="space-y-4 sm:space-y-6">
               {/* Header */}
               <div className="flex items-start justify-between gap-3">
@@ -131,8 +135,8 @@ export const CareerSuggestions = ({
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-3 sm:h-4 overflow-hidden shadow-inner">
                   <div className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-full transition-all duration-1000 ease-out relative shadow-lg" style={{
-                width: `${suggestion.skillMatchPercentage}%`
-              }}>
+                    width: `${suggestion.skillMatchPercentage}%`
+                  }}>
                     <div className="absolute inset-0 bg-gradient-to-r from-white/40 to-transparent rounded-full"></div>
                   </div>
                 </div>
@@ -146,9 +150,11 @@ export const CareerSuggestions = ({
                     Skills you already have
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {suggestion.transferableSkills.map((skill, i) => <Badge key={i} className="bg-emerald-100 text-emerald-800 border-emerald-200 px-2 py-1 sm:px-3 sm:py-2 font-medium shadow-sm hover:shadow-md transition-shadow text-xs sm:text-sm">
+                    {suggestion.transferableSkills.map((skill, i) => (
+                      <Badge key={i} className="bg-emerald-100 text-emerald-800 border-emerald-200 px-2 py-1 sm:px-3 sm:py-2 font-medium shadow-sm hover:shadow-md transition-shadow text-xs sm:text-sm">
                         {skill}
-                      </Badge>)}
+                      </Badge>
+                    ))}
                   </div>
                 </div>
 
@@ -158,14 +164,30 @@ export const CareerSuggestions = ({
                     Skills to develop
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {suggestion.newSkillsNeeded.map((skill, i) => <Badge key={i} variant="outline" className="border-blue-200 text-blue-700 px-2 py-1 sm:px-3 sm:py-2 font-medium shadow-sm hover:shadow-md transition-shadow text-xs sm:text-sm">
+                    {suggestion.newSkillsNeeded.map((skill, i) => (
+                      <Badge key={i} variant="outline" className="border-blue-200 text-blue-700 px-2 py-1 sm:px-3 sm:py-2 font-medium shadow-sm hover:shadow-md transition-shadow text-xs sm:text-sm">
                         {skill}
-                      </Badge>)}
+                      </Badge>
+                    ))}
                   </div>
                 </div>
               </div>
+
+              {/* 90-Day Plan CTA */}
+              {onGetUpskillPlan && (
+                <div className="pt-4 sm:pt-6 border-t border-gray-200">
+                  <Button 
+                    onClick={() => onGetUpskillPlan(suggestion.title)}
+                    className="w-full sm:w-auto bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all text-sm sm:text-base"
+                  >
+                    <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                    Get 90-Day Practical Skills Plan
+                  </Button>
+                </div>
+              )}
             </div>
-          </Card>)}
+          </Card>
+        ))}
       </div>
 
       {/* Success Story */}
