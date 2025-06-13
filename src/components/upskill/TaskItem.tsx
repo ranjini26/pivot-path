@@ -1,8 +1,6 @@
-
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { BookOpen, Clock, ExternalLink, CheckCircle, Target, List } from 'lucide-react';
-
 interface Task {
   id: string;
   title: string;
@@ -13,14 +11,16 @@ interface Task {
   url: string;
   completed: boolean;
 }
-
 interface TaskItemProps {
   task: Task;
   isChecked: boolean;
   onToggle: (taskId: string) => void;
 }
-
-export const TaskItem = ({ task, isChecked, onToggle }: TaskItemProps) => {
+export const TaskItem = ({
+  task,
+  isChecked,
+  onToggle
+}: TaskItemProps) => {
   const getTaskIcon = (type: string) => {
     switch (type) {
       case 'Course':
@@ -39,7 +39,6 @@ export const TaskItem = ({ task, isChecked, onToggle }: TaskItemProps) => {
         return <BookOpen className="w-4 h-4" />;
     }
   };
-
   const getTaskColor = (type: string) => {
     switch (type) {
       case 'Course':
@@ -58,26 +57,12 @@ export const TaskItem = ({ task, isChecked, onToggle }: TaskItemProps) => {
         return 'bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-900/30 dark:text-gray-300';
     }
   };
-
-  return (
-    <div className="flex items-start gap-3 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800/70 transition-colors">
-      <Checkbox
-        id={task.id}
-        checked={isChecked}
-        onCheckedChange={() => onToggle(task.id)}
-        className="mt-1"
-      />
+  return <div className="flex items-start gap-3 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors bg-violet-100">
+      <Checkbox id={task.id} checked={isChecked} onCheckedChange={() => onToggle(task.id)} className="mt-1" />
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1">
-            <label 
-              htmlFor={task.id} 
-              className={`font-medium cursor-pointer block ${
-                isChecked 
-                  ? 'line-through text-gray-500 dark:text-gray-400' 
-                  : 'text-gray-900 dark:text-white'
-              }`}
-            >
+            <label htmlFor={task.id} className={`font-medium cursor-pointer block ${isChecked ? 'line-through text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-white'}`}>
               {task.title}
             </label>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
@@ -97,6 +82,5 @@ export const TaskItem = ({ task, isChecked, onToggle }: TaskItemProps) => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
