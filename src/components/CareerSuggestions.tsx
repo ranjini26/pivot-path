@@ -2,6 +2,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { TrendingUp, Star, ArrowRight, BarChart3, RotateCcw, User, Clock, Lightbulb } from 'lucide-react';
+
 interface CareerSuggestion {
   title: string;
   description: string;
@@ -10,6 +11,7 @@ interface CareerSuggestion {
   skillMatchPercentage: number;
   growthPotential: 'High' | 'Medium' | 'Steady';
 }
+
 interface SuccessStory {
   name: string;
   fromRole: string;
@@ -17,11 +19,13 @@ interface SuccessStory {
   timeframe: string;
   keyInsight: string;
 }
+
 interface CareerSuggestionsProps {
   suggestions: CareerSuggestion[];
   successStory: SuccessStory;
   onExploreSkillSwap: () => void;
 }
+
 export const CareerSuggestions = ({
   suggestions,
   successStory,
@@ -37,7 +41,9 @@ export const CareerSuggestions = ({
         return 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg';
     }
   };
-  return <div className="space-y-6 sm:space-y-8 animate-fade-in px-4">
+
+  return (
+    <div className="space-y-6 sm:space-y-8 animate-fade-in px-4">
       {/* Hero Section */}
       <div className="text-center space-y-3 sm:space-y-4">
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
@@ -163,7 +169,52 @@ export const CareerSuggestions = ({
       </div>
 
       {/* Success Story */}
-      {successStory}
+      <Card className="p-4 sm:p-6 lg:p-8 bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200 shadow-lg">
+        <div className="space-y-4 sm:space-y-6">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-amber-500 rounded-full flex items-center justify-center shadow-lg">
+              <User className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+            </div>
+            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-amber-900">Success Story</h3>
+          </div>
+          
+          <div className="space-y-3 sm:space-y-4">
+            <div className="bg-white/70 rounded-lg p-3 sm:p-4 lg:p-6 border border-amber-200">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 mb-3 sm:mb-4">
+                <h4 className="text-base sm:text-lg lg:text-xl font-bold text-amber-900">{successStory.name}</h4>
+                <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-amber-700">
+                  <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
+                  <span>{successStory.timeframe}</span>
+                </div>
+              </div>
+              
+              <div className="space-y-2 sm:space-y-3">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+                  <span className="text-sm sm:text-base text-amber-800 font-medium">From:</span>
+                  <span className="text-sm sm:text-base text-amber-900">{successStory.fromRole}</span>
+                </div>
+                <div className="flex items-center justify-center py-1">
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600" />
+                </div>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+                  <span className="text-sm sm:text-base text-amber-800 font-medium">To:</span>
+                  <span className="text-sm sm:text-base text-amber-900 font-semibold">{successStory.toRole}</span>
+                </div>
+              </div>
+              
+              <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-amber-100/50 rounded-lg border border-amber-200">
+                <div className="flex items-start gap-2 sm:gap-3">
+                  <Lightbulb className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600 mt-1 flex-shrink-0" />
+                  <div>
+                    <h5 className="text-sm sm:text-base font-semibold text-amber-900 mb-1 sm:mb-2">Key Insight</h5>
+                    <p className="text-xs sm:text-sm lg:text-base text-amber-800 leading-relaxed">{successStory.keyInsight}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Card>
 
       {/* Next Step CTA */}
       <Card className="p-6 sm:p-8 lg:p-10 text-center bg-gradient-to-r from-indigo-500 to-purple-600 border-0 shadow-2xl">
@@ -183,5 +234,6 @@ export const CareerSuggestions = ({
           </Button>
         </div>
       </Card>
-    </div>;
+    </div>
+  );
 };
