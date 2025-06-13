@@ -21,7 +21,7 @@ export const PivotHeader = ({
           Transform career uncertainty into your next breakthrough
         </h2>
         
-        <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+        <p className="text-gray-600 max-w-3xl mx-auto leading-relaxed text-lg">
           Whether you're facing layoffs, automation, or industry shifts—you're not stuck. 
           You're just one pivot away from your next chapter.
         </p>
