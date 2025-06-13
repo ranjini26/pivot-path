@@ -1,9 +1,7 @@
-
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { TrendingUp, Star, BookOpen, MessageCircle, BarChart3, ArrowRight } from 'lucide-react';
-
 interface CareerSuggestion {
   title: string;
   description: string;
@@ -12,7 +10,6 @@ interface CareerSuggestion {
   skillMatchPercentage: number;
   growthPotential: 'High' | 'Medium' | 'Steady';
 }
-
 interface SuccessStory {
   name: string;
   fromRole: string;
@@ -20,14 +17,12 @@ interface SuccessStory {
   timeframe: string;
   keyInsight: string;
 }
-
 interface CareerSuggestionsProps {
   suggestions: CareerSuggestion[];
   successStory: SuccessStory;
   onGetUpskillPlan: (career: string) => void;
   onMicroCoaching: () => void;
 }
-
 export const CareerSuggestions = ({
   suggestions,
   successStory,
@@ -44,9 +39,7 @@ export const CareerSuggestions = ({
         return 'bg-blue-500 text-white';
     }
   };
-
-  return (
-    <div className="space-y-8 animate-fade-in">
+  return <div className="space-y-8 animate-fade-in">
       {/* Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200">
@@ -99,8 +92,7 @@ export const CareerSuggestions = ({
           </Badge>
         </div>
         
-        {suggestions.map((suggestion, index) => (
-          <Card key={index} className="p-8 hover:shadow-lg transition-all duration-300 border-l-4 border-l-indigo-500">
+        {suggestions.map((suggestion, index) => <Card key={index} className="p-8 hover:shadow-lg transition-all duration-300 border-l-4 border-l-indigo-500">
             <div className="space-y-6">
               {/* Header */}
               <div className="flex items-start justify-between">
@@ -111,7 +103,7 @@ export const CareerSuggestions = ({
                       {suggestion.growthPotential} Growth
                     </Badge>
                   </div>
-                  <p className="text-muted-foreground leading-relaxed">{suggestion.description}</p>
+                  <p className="leading-relaxed text-zinc-950">{suggestion.description}</p>
                 </div>
               </div>
 
@@ -122,10 +114,9 @@ export const CareerSuggestions = ({
                   <span className="text-sm font-bold text-indigo-600">{suggestion.skillMatchPercentage}%</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                  <div 
-                    className="h-full bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full transition-all duration-1000 ease-out relative"
-                    style={{ width: `${suggestion.skillMatchPercentage}%` }}
-                  >
+                  <div className="h-full bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full transition-all duration-1000 ease-out relative" style={{
+                width: `${suggestion.skillMatchPercentage}%`
+              }}>
                     <div className="absolute inset-0 bg-gradient-to-r from-white/30 to-transparent rounded-full"></div>
                   </div>
                 </div>
@@ -139,11 +130,9 @@ export const CareerSuggestions = ({
                     Skills you already have
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {suggestion.transferableSkills.map((skill, i) => (
-                      <Badge key={i} className="bg-emerald-100 text-emerald-800 border-emerald-200 px-3 py-1">
+                    {suggestion.transferableSkills.map((skill, i) => <Badge key={i} className="bg-emerald-100 text-emerald-800 border-emerald-200 px-3 py-1">
                         {skill}
-                      </Badge>
-                    ))}
+                      </Badge>)}
                   </div>
                 </div>
 
@@ -153,32 +142,25 @@ export const CareerSuggestions = ({
                     Skills to develop
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {suggestion.newSkillsNeeded.map((skill, i) => (
-                      <Badge key={i} variant="outline" className="border-blue-200 text-blue-700 px-3 py-1">
+                    {suggestion.newSkillsNeeded.map((skill, i) => <Badge key={i} variant="outline" className="border-blue-200 text-blue-700 px-3 py-1">
                         {skill}
-                      </Badge>
-                    ))}
+                      </Badge>)}
                   </div>
                 </div>
               </div>
 
               {/* CTA Button */}
-              <Button 
-                onClick={() => onGetUpskillPlan(suggestion.title)} 
-                className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white h-12 text-base font-medium"
-              >
+              <Button onClick={() => onGetUpskillPlan(suggestion.title)} className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white h-12 text-base font-medium">
                 <BookOpen className="w-5 h-5 mr-2" />
                 Get 90-Day Learning Plan
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </div>
-          </Card>
-        ))}
+          </Card>)}
       </div>
 
       {/* Success Story */}
-      {successStory && (
-        <Card className="p-6 bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200">
+      {successStory && <Card className="p-6 bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200">
           <div className="flex items-start gap-4">
             <div className="w-12 h-12 bg-amber-500 rounded-lg flex items-center justify-center">
               <Star className="w-6 h-6 text-white" />
@@ -200,8 +182,7 @@ export const CareerSuggestions = ({
               </div>
             </div>
           </div>
-        </Card>
-      )}
+        </Card>}
 
       {/* Micro-Coaching CTA */}
       <Card className="p-8 text-center bg-gradient-to-r from-indigo-500 to-purple-600 border-0">
@@ -215,14 +196,10 @@ export const CareerSuggestions = ({
               Get personalized coaching on interview prep, job search strategies, or career advice.
             </p>
           </div>
-          <Button 
-            onClick={onMicroCoaching} 
-            className="bg-white/20 hover:bg-white/30 text-white border-white/30 px-8 py-3"
-          >
+          <Button onClick={onMicroCoaching} className="bg-white/20 hover:bg-white/30 text-white border-white/30 px-8 py-3">
             Start Coaching Session
           </Button>
         </div>
       </Card>
-    </div>
-  );
+    </div>;
 };
