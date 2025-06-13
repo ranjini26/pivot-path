@@ -1,13 +1,11 @@
-
 import { Target, RotateCcw, BookOpen } from 'lucide-react';
-
 interface PivotHeaderProps {
   onFeatureClick: (feature: string) => void;
 }
-
-export const PivotHeader = ({ onFeatureClick }: PivotHeaderProps) => {
-  return (
-    <div className="text-center space-y-8 mb-12">
+export const PivotHeader = ({
+  onFeatureClick
+}: PivotHeaderProps) => {
+  return <div className="text-center space-y-8 mb-12">
       {/* Main Hero Section */}
       <div className="space-y-4">
         <div className="flex items-center justify-center gap-3 mb-6">
@@ -19,7 +17,7 @@ export const PivotHeader = ({ onFeatureClick }: PivotHeaderProps) => {
           </h1>
         </div>
         
-        <h2 className="text-3xl font-bold text-gray-900 leading-tight">
+        <h2 className="text-gray-900 leading-tight text-xl font-medium">
           Transform career uncertainty into your next breakthrough
         </h2>
         
@@ -55,6 +53,5 @@ export const PivotHeader = ({ onFeatureClick }: PivotHeaderProps) => {
           </p>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
