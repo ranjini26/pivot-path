@@ -1,7 +1,7 @@
 
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, List } from 'lucide-react';
+import { Calendar, List, Target } from 'lucide-react';
 import { TaskItem } from './TaskItem';
 
 interface Task {
@@ -35,46 +35,81 @@ export const WeeklyGoalCard = ({
   checkedTasks, 
   onTaskToggle 
 }: WeeklyGoalCardProps) => {
+  const completedTasks = goal.tasks.filter(task => checkedTasks.has(task.id)).length;
+  const progressPercentage = goal.tasks.length > 0 ? Math.round((completedTasks / goal.tasks.length) * 100) : 0;
+
   return (
-    <Card className="bg-white dark:bg-gray-900 p-6 border border-gray-200 dark:border-gray-700 shadow-sm">
-      <div className="flex items-start justify-between mb-6">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
-            {goalIndex + 1}
+    <Card className="overflow-hidden border-0 shadow-lg">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-6 text-white">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center font-bold text-lg">
+              {goalIndex + 1}
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold">{goal.week}</h3>
+              <p className="text-white/90">{goal.focus}</p>
+            </div>
           </div>
-          <div>
-            <h3 className="font-semibold text-xl text-gray-900 dark:text-white">{goal.week}</h3>
-            <p className="text-gray-600 dark:text-gray-400 mt-1">{goal.focus}</p>
+          <div className="text-right">
+            <Badge className="bg-white/20 text-white border-white/30 mb-2">
+              Phase {goalIndex + 1}
+            </Badge>
+            <div className="text-sm">
+              <span className="font-medium">{completedTasks}/{goal.tasks.length}</span>
+              <span className="text-white/70"> tasks</span>
+            </div>
           </div>
         </div>
-        <Badge variant="outline" className="border-indigo-200 dark:border-indigo-700 text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/20">
-          Phase {goalIndex + 1}
-        </Badge>
-      </div>
-
-      {/* Task Checklist */}
-      <div className="space-y-3 mb-6">
-        <h4 className="font-medium text-gray-900 dark:text-white flex items-center gap-2">
-          <List className="w-4 h-4" />
-          Practical Tasks & Activities
-        </h4>
-        {goal.tasks.map((task) => (
-          <TaskItem
-            key={task.id}
-            task={task}
-            isChecked={checkedTasks.has(task.id)}
-            onToggle={onTaskToggle}
-          />
-        ))}
-      </div>
-
-      {/* Week Milestone */}
-      <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-700">
-        <div className="flex items-center gap-2 mb-2">
-          <Calendar className="w-4 h-4 text-green-600 dark:text-green-400" />
-          <span className="text-sm font-medium text-green-800 dark:text-green-300">Phase {goalIndex + 1} Goal:</span>
+        
+        {/* Progress bar */}
+        <div className="mt-4">
+          <div className="flex justify-between text-sm mb-2">
+            <span>Progress</span>
+            <span>{progressPercentage}%</span>
+          </div>
+          <div className="w-full bg-white/20 rounded-full h-2">
+            <div 
+              className="bg-white rounded-full h-2 transition-all duration-300"
+              style={{ width: `${progressPercentage}%` }}
+            ></div>
+          </div>
         </div>
-        <p className="text-sm text-green-700 dark:text-green-200">{goal.milestone}</p>
+      </div>
+
+      {/* Content */}
+      <div className="p-6 space-y-6">
+        {/* Tasks */}
+        <div className="space-y-4">
+          <h4 className="font-semibold text-foreground flex items-center gap-2">
+            <List className="w-5 h-5 text-indigo-600" />
+            Practical Tasks & Activities
+          </h4>
+          <div className="space-y-3">
+            {goal.tasks.map((task) => (
+              <TaskItem
+                key={task.id}
+                task={task}
+                isChecked={checkedTasks.has(task.id)}
+                onToggle={onTaskToggle}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Milestone */}
+        <div className="p-4 bg-emerald-50 rounded-lg border border-emerald-200">
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center mt-0.5">
+              <Target className="w-4 h-4 text-white" />
+            </div>
+            <div>
+              <h5 className="font-medium text-emerald-900 mb-1">Phase {goalIndex + 1} Milestone</h5>
+              <p className="text-sm text-emerald-700">{goal.milestone}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </Card>
   );
