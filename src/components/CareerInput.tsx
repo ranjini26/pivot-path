@@ -126,7 +126,7 @@ export const CareerInput = ({ onSubmit, isLoading }: CareerInputProps) => {
         </div>
       </Card>
 
-      {/* What You'll Get Section - Moved below */}
+      {/* What You'll Get Section */}
       <Card className="glass-effect p-6 border-l-4 border-l-indigo-400">
         <div className="flex items-start gap-3">
           <ArrowRight className="w-5 h-5 text-indigo-600 mt-1 flex-shrink-0" />

@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 interface ApiKeyManagerProps {
   onApiKeySet: (apiKey: string) => void;
