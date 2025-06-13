@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 
 interface OpenAIMessage {
@@ -20,7 +19,7 @@ export class OpenAIService {
         body: {
           messages,
           temperature,
-          maxTokens: 2000,
+          maxTokens: 3000,
         },
       });
 
@@ -149,25 +148,53 @@ export class OpenAIService {
     const messages: OpenAIMessage[] = [
       {
         role: 'system',
-        content: `Create a practical 90-day upskilling plan with specific, actionable resources. Return JSON with this structure:
+        content: `Create a practical 90-day upskilling plan broken down into small, actionable daily tasks. Each week should have 5-8 specific tasks that can be checked off a list. Return JSON with this structure:
         [
           {
             "week": "Weeks 1-4: Foundation Building",
             "focus": "Core Skills Development",
-            "resources": [
+            "tasks": [
               {
-                "title": "Specific Course Name",
-                "type": "Course",
-                "platform": "Coursera/edX/YouTube",
-                "duration": "20 hours",
-                "url": "#"
+                "id": "task_1_1",
+                "title": "Watch Introduction to [Field] fundamentals",
+                "description": "Complete the first 3 modules covering basic concepts and terminology",
+                "estimatedTime": "2 hours",
+                "type": "Video",
+                "platform": "Coursera",
+                "url": "#",
+                "completed": false
+              },
+              {
+                "id": "task_1_2", 
+                "title": "Read industry overview article",
+                "description": "Read Harvard Business Review article on current trends in [field]",
+                "estimatedTime": "30 minutes",
+                "type": "Article",
+                "platform": "HBR",
+                "url": "#",
+                "completed": false
+              },
+              {
+                "id": "task_1_3",
+                "title": "Create learning journal",
+                "description": "Set up a document to track key learnings, questions, and progress",
+                "estimatedTime": "15 minutes", 
+                "type": "Practice",
+                "platform": "Google Docs",
+                "url": "#",
+                "completed": false
               }
             ],
             "milestone": "Complete foundational knowledge and create first project"
           }
         ]
         
-        Make it highly practical with real learning resources, specific skills, and actionable milestones. Each week should build on the previous one and lead to tangible progress toward the career goal.`
+        Make each task:
+        - Specific and actionable (can be completed in 15 minutes to 3 hours)
+        - Have clear deliverables or completion criteria
+        - Build progressively toward the career goal
+        - Use real platforms and realistic time estimates
+        - Include a mix of learning, practice, and application tasks`
       },
       {
         role: 'user',
@@ -179,32 +206,67 @@ export class OpenAIService {
     
     try {
       const plan = JSON.parse(response);
-      // Ensure we have a practical plan structure
-      return plan.length > 0 ? plan : this.generateFallbackPlan(careerPath);
+      return plan.length > 0 ? plan : this.generateFallbackTaskPlan(careerPath);
     } catch {
-      return this.generateFallbackPlan(careerPath);
+      return this.generateFallbackTaskPlan(careerPath);
     }
   }
 
-  private generateFallbackPlan(careerPath: string) {
+  private generateFallbackTaskPlan(careerPath: string) {
     return [
       {
         week: "Weeks 1-4: Foundation Building",
         focus: `Core ${careerPath} Fundamentals`,
-        resources: [
+        tasks: [
           {
-            title: `Introduction to ${careerPath}`,
-            type: "Course" as const,
+            id: "task_1_1",
+            title: `Watch "${careerPath} Fundamentals" course introduction`,
+            description: "Complete modules 1-3 covering industry basics and key terminology",
+            estimatedTime: "3 hours",
+            type: "Course",
             platform: "Coursera",
-            duration: "20 hours",
-            url: "#"
+            url: "#",
+            completed: false
           },
           {
-            title: "Industry Best Practices",
-            type: "Article" as const,
+            id: "task_1_2",
+            title: "Read industry overview article",
+            description: "Research current trends and opportunities in the field",
+            estimatedTime: "45 minutes",
+            type: "Article",
             platform: "Medium",
-            duration: "5 hours",
-            url: "#"
+            url: "#",
+            completed: false
+          },
+          {
+            id: "task_1_3",
+            title: "Create professional learning plan",
+            description: "Document your goals, timeline, and success metrics",
+            estimatedTime: "30 minutes",
+            type: "Practice",
+            platform: "Google Docs",
+            url: "#",
+            completed: false
+          },
+          {
+            id: "task_1_4",
+            title: "Join relevant professional communities",
+            description: "Find and join 2-3 LinkedIn groups or Discord communities",
+            estimatedTime: "20 minutes",
+            type: "Research",
+            platform: "LinkedIn",
+            url: "#",
+            completed: false
+          },
+          {
+            id: "task_1_5",
+            title: "Complete foundational quiz",
+            description: "Test your understanding of basic concepts covered so far",
+            estimatedTime: "15 minutes",
+            type: "Practice",
+            platform: "Self-assessment",
+            url: "#",
+            completed: false
           }
         ],
         milestone: "Complete foundational knowledge and understand industry basics"
@@ -212,13 +274,56 @@ export class OpenAIService {
       {
         week: "Weeks 5-8: Skill Development",
         focus: "Hands-on Practice & Tools",
-        resources: [
+        tasks: [
           {
-            title: "Practical Skills Workshop",
-            type: "Practice" as const,
+            id: "task_2_1",
+            title: "Complete hands-on tutorial series",
+            description: "Follow along with practical exercises using industry tools",
+            estimatedTime: "4 hours",
+            type: "Practice",
             platform: "YouTube",
-            duration: "15 hours",
-            url: "#"
+            url: "#",
+            completed: false
+          },
+          {
+            id: "task_2_2",
+            title: "Start first portfolio project",
+            description: "Begin working on a project that demonstrates key skills",
+            estimatedTime: "2 hours",
+            type: "Project",
+            platform: "Self-directed",
+            url: "#",
+            completed: false
+          },
+          {
+            id: "task_2_3",
+            title: "Practice daily skill exercises",
+            description: "Dedicate 30 minutes daily to skill-building activities",
+            estimatedTime: "30 minutes/day",
+            type: "Practice",
+            platform: "Various",
+            url: "#",
+            completed: false
+          },
+          {
+            id: "task_2_4",
+            title: "Seek feedback from professionals",
+            description: "Share your progress and get input from industry experts",
+            estimatedTime: "1 hour",
+            type: "Research",
+            platform: "LinkedIn",
+            url: "#",
+            completed: false
+          },
+          {
+            id: "task_2_5",
+            title: "Document your learning journey",
+            description: "Write blog posts or LinkedIn updates about your progress",
+            estimatedTime: "45 minutes",
+            type: "Practice",
+            platform: "LinkedIn/Medium",
+            url: "#",
+            completed: false
           }
         ],
         milestone: "Build first portfolio project demonstrating key skills"
@@ -226,16 +331,59 @@ export class OpenAIService {
       {
         week: "Weeks 9-12: Portfolio & Networking",
         focus: "Professional Preparation",
-        resources: [
+        tasks: [
           {
-            title: "Portfolio Development",
-            type: "Practice" as const,
-            platform: "Self-directed",
-            duration: "25 hours",
-            url: "#"
+            id: "task_3_1",
+            title: "Complete professional portfolio",
+            description: "Finalize 2-3 projects showcasing your new skills",
+            estimatedTime: "6 hours",
+            type: "Project",
+            platform: "GitHub/Portfolio site",
+            url: "#",
+            completed: false
+          },
+          {
+            id: "task_3_2",
+            title: "Update resume and LinkedIn profile",
+            description: "Highlight new skills and projects prominently",
+            estimatedTime: "2 hours",
+            type: "Practice",
+            platform: "LinkedIn",
+            url: "#",
+            completed: false
+          },
+          {
+            id: "task_3_3",
+            title: "Conduct informational interviews",
+            description: "Schedule calls with 3-5 professionals in your target field",
+            estimatedTime: "3 hours",
+            type: "Research",
+            platform: "LinkedIn/Email",
+            url: "#",
+            completed: false
+          },
+          {
+            id: "task_3_4",
+            title: "Apply to first opportunities",
+            description: "Submit applications to 5-10 relevant positions",
+            estimatedTime: "4 hours",
+            type: "Practice",
+            platform: "Job boards",
+            url: "#",
+            completed: false
+          },
+          {
+            id: "task_3_5",
+            title: "Practice interview skills",
+            description: "Complete mock interviews and prepare for common questions",
+            estimatedTime: "2 hours",
+            type: "Practice",
+            platform: "Mock interview platforms",
+            url: "#",
+            completed: false
           }
         ],
-        milestone: "Complete professional portfolio and begin networking"
+        milestone: "Complete professional portfolio and begin networking actively"
       }
     ];
   }
