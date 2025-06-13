@@ -1,6 +1,8 @@
+
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { BookOpen, Clock, ExternalLink, CheckCircle, Target, List } from 'lucide-react';
+
 interface Task {
   id: string;
   title: string;
@@ -11,11 +13,13 @@ interface Task {
   url: string;
   completed: boolean;
 }
+
 interface TaskItemProps {
   task: Task;
   isChecked: boolean;
   onToggle: (taskId: string) => void;
 }
+
 export const TaskItem = ({
   task,
   isChecked,
@@ -24,21 +28,22 @@ export const TaskItem = ({
   const getTaskIcon = (type: string) => {
     switch (type) {
       case 'Course':
-        return <BookOpen className="w-4 h-4" />;
+        return <BookOpen className="w-3 h-3 sm:w-4 sm:h-4" />;
       case 'Video':
-        return <Clock className="w-4 h-4" />;
+        return <Clock className="w-3 h-3 sm:w-4 sm:h-4" />;
       case 'Article':
-        return <ExternalLink className="w-4 h-4" />;
+        return <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4" />;
       case 'Practice':
-        return <CheckCircle className="w-4 h-4" />;
+        return <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4" />;
       case 'Project':
-        return <Target className="w-4 h-4" />;
+        return <Target className="w-3 h-3 sm:w-4 sm:h-4" />;
       case 'Research':
-        return <List className="w-4 h-4" />;
+        return <List className="w-3 h-3 sm:w-4 sm:h-4" />;
       default:
-        return <BookOpen className="w-4 h-4" />;
+        return <BookOpen className="w-3 h-3 sm:w-4 sm:h-4" />;
     }
   };
+
   const getTaskColor = (type: string) => {
     switch (type) {
       case 'Course':
@@ -57,18 +62,28 @@ export const TaskItem = ({
         return 'bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-900/30 dark:text-gray-300';
     }
   };
-  return <div className="flex items-start gap-3 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors bg-violet-100">
-      <Checkbox id={task.id} checked={isChecked} onCheckedChange={() => onToggle(task.id)} className="mt-1" />
+
+  return (
+    <div className="flex items-start gap-2 sm:gap-3 p-3 sm:p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-colors bg-violet-100">
+      <Checkbox 
+        id={task.id} 
+        checked={isChecked} 
+        onCheckedChange={() => onToggle(task.id)} 
+        className="mt-1" 
+      />
       <div className="flex-1 min-w-0">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1">
-            <label htmlFor={task.id} className={`font-medium cursor-pointer block ${isChecked ? 'line-through text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-white'}`}>
+            <label 
+              htmlFor={task.id} 
+              className={`font-medium cursor-pointer block text-sm sm:text-base ${isChecked ? 'line-through text-gray-500 dark:text-gray-400' : 'text-gray-900 dark:text-white'}`}
+            >
               {task.title}
             </label>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
               {task.description}
             </p>
-            <div className="flex items-center gap-3 mt-2">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 mt-2">
               <Badge className={`text-xs ${getTaskColor(task.type)}`}>
                 <span className="flex items-center gap-1">
                   {getTaskIcon(task.type)}
@@ -82,5 +97,6 @@ export const TaskItem = ({
           </div>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
