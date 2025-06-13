@@ -117,7 +117,7 @@ export const UpskillPlan = ({
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold text-foreground">Learning Path</h2>
-          <Badge variant="secondary" className="px-3 py-1">
+          <Badge variant="secondary" className="px-3 py-1 bg-black">
             {weeklyGoals.length} phases
           </Badge>
         </div>
